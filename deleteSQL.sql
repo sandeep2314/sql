@@ -6,8 +6,6 @@ DECLARE @UID integer
 
 SET @UID=15
 
-
-
 delete from tblSMSSent
 
 --select * from tblUserInfo where UserId NOT IN (@UID) 
