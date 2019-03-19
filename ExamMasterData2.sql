@@ -97,4 +97,65 @@ VALUES (CAST(0x0000A9EC00000000 AS DateTime)
 
 
 
+INSERT [dbo].[tblExamMaster] ( [ExamDate], [ExamName], [ExamCode]
+, [TermId], [ClassMasterId], [SectionMasterId], [MaxMarks], [PassMarks]
+, [IsFormula], [Formula], [ExamOrder], [UserID], [FYear]) 
+VALUES (CAST(0x0000A9EC00000000 AS DateTime)
+, N'PT25', N'PT1(25)', @term1ID, 0
+, 0, N'25', N'32', 0, NULL, 5300, @UID, 2014)
+
+INSERT [dbo].[tblExamMaster] ( [ExamDate], [ExamName], [ExamCode]
+, [TermId], [ClassMasterId], [SectionMasterId], [MaxMarks], [PassMarks]
+, [IsFormula], [Formula], [ExamOrder], [UserID], [FYear]) 
+VALUES (CAST(0x0000A9EC00000000 AS DateTime)
+, N'PT26', N'PT2(25)', @term1ID, 0
+, 0, N'25', N'32', 0, NULL, 5400, @UID, 2014)
+
+INSERT [dbo].[tblExamMaster] ( [ExamDate], [ExamName], [ExamCode]
+, [TermId], [ClassMasterId], [SectionMasterId], [MaxMarks], [PassMarks]
+, [IsFormula], [Formula], [ExamOrder], [UserID], [FYear]) 
+VALUES (CAST(0x0000A9EC00000000 AS DateTime)
+, N'PT27', N'PT3(25)', @term2ID, 0
+, 0, N'25', N'32', 0, NULL, 5500, @UID, 2014)
+
+INSERT [dbo].[tblExamMaster] ( [ExamDate], [ExamName], [ExamCode]
+, [TermId], [ClassMasterId], [SectionMasterId], [MaxMarks], [PassMarks]
+, [IsFormula], [Formula], [ExamOrder], [UserID], [FYear]) 
+VALUES (CAST(0x0000A9EC00000000 AS DateTime)
+, N'PT28', N'PT4(25)', @term2ID, 0
+, 0, N'25', N'32', 0, NULL, 5600, @UID, 2014)
+
+INSERT [dbo].[tblExamMaster] ( [ExamDate], [ExamName], [ExamCode]
+, [TermId], [ClassMasterId], [SectionMasterId], [MaxMarks], [PassMarks]
+, [IsFormula], [Formula], [ExamOrder], [UserID], [FYear]) 
+VALUES (CAST(0x0000A9EC00000000 AS DateTime)
+, N'PT29', N'Practical1(20)', @term1ID, 0
+, 0, N'20', N'32', 0, NULL, 5700, @UID, 2014)
+
+
+INSERT [dbo].[tblExamMaster] ( [ExamDate], [ExamName], [ExamCode]
+, [TermId], [ClassMasterId], [SectionMasterId], [MaxMarks], [PassMarks]
+, [IsFormula], [Formula], [ExamOrder], [UserID], [FYear]) 
+VALUES (CAST(0x0000A9EC00000000 AS DateTime)
+, N'PT30', N'Practical2(20)', @term2ID, 0
+, 0, N'20', N'32', 0, NULL, 5800, @UID, 2014)
+
+INSERT [dbo].[tblExamMaster] ( [ExamDate], [ExamName], [ExamCode]
+, [TermId], [ClassMasterId], [SectionMasterId], [MaxMarks], [PassMarks]
+, [IsFormula], [Formula], [ExamOrder], [UserID], [FYear]) 
+VALUES (CAST(0x0000A9EC00000000 AS DateTime)
+, N'PT31', N'Practical1(30)', @term1ID, 0
+, 0, N'30', N'32', 0, NULL, 5900, @UID, 2014)
+
+INSERT [dbo].[tblExamMaster] ( [ExamDate], [ExamName], [ExamCode]
+, [TermId], [ClassMasterId], [SectionMasterId], [MaxMarks], [PassMarks]
+, [IsFormula], [Formula], [ExamOrder], [UserID], [FYear]) 
+VALUES (CAST(0x0000A9EC00000000 AS DateTime)
+, N'PT32', N'Practical2(30)', @term2ID, 0
+, 0, N'30', N'32', 0, NULL, 6000, @UID, 2014)
+
+
+
+
+
 go
