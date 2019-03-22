@@ -1,10 +1,10 @@
-
+-- select * from tblUserInfo
 
 
 DECLARE @UID integer
 
 
-SET @UID=15
+SET @UID=36
 
 delete from tblSMSSent
 
@@ -20,6 +20,6 @@ delete from tblExamMaster where UserId NOT IN (@UID)
 delete from tblSubjectMaster where UserId NOT IN (@UID) 
 delete from tblExamMarks where UserId NOT IN (@UID) 
 
---delete from tblSubUser where UserId NOT IN (@UID) 
+delete from tblSubUser where UserId NOT IN (@UID) 
 
 

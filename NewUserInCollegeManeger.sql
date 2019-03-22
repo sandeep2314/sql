@@ -1622,3 +1622,44 @@ where userInfoID=9
 Update tblUserInfo set SMSUser='sandeep99'
 , SMSPassword='pantnagar', SMSDelivery=80
 where userInfoID=6
+
+
+
+----------------DPS Bijnor -----
+
+INSERT INTO tblUserInfo(UserName, Email, UserPassword
+, CreationDate,isActive
+, AmountPaid, startDate, EndDate
+, UserType, NumberOFSubUsers, FYear, senderID)
+VALUES('DPS Public School, DUDHLI,'
+, 'hudaansari21@gmail.com'
+, '123'
+, getdate(), 'Y'
+, 0, '2019-03-22 00:00:00.000', '2020-03-31 00:00:00.000'
+, 1, 10, 2014, '')
+
+go
+
+INSERT INTO tblSubUser(SubUserName,subUserPassword
+, subuserCreationDate
+, EmailId
+, IsAdmin
+, Active, userID)
+VALUES('Principal', '123'
+, '2019-03-22 00:00:00.000'
+, 'hudaansari21@gmail.com', 1, 1, 36)
+
+go
+
+INSERT INTO tblSectionMaster(SectionName, SectionOrder,USERID, FYear)
+VALUES('', 1, 36, 2014)
+GO
+
+
+
+
+
+
+
+
+

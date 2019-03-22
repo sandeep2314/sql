@@ -18,8 +18,10 @@ DECLARE @UID Integer
 --SET @UID = 12 
 
 -- HSM
-SET @UID = 5 
+--SET @UID = 5 
 
+-- DPS Public Bijnor
+SET @UID = 36
 
 -- Guru Nanak Kashipur
 --SET @UID = 8 
