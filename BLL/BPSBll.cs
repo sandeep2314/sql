@@ -1864,6 +1864,8 @@ namespace AccountingSoftware.BLL
                 isNur = true;
 
             bool is11 = theClass.StartsWith("XI");
+            
+            bool is9 = theClass.StartsWith("IX");
 
 
             
