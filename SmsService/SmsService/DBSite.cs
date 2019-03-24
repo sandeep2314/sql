@@ -71,10 +71,7 @@ namespace SmsService
             //              + "Initial Catalog=AccountsDB_LittleAngels1819;User ID=sa;password=Sandeep123@#;";
 
 
-            ////OakWood
-            //string conStr = "Data Source=103.233.24.31,1433\\SQLEXPRESS;"
-            //              + "Initial Catalog=HSMDB1819;User ID=sa;password=Sandeep123@#;";
-
+            
             ////whitehall
             string conStr = "Data Source=103.233.24.31,1433\\SQLEXPRESS;"
                           + "Initial Catalog=WhiteHallDB1819;User ID=sa;password=Sandeep123@#;";

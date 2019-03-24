@@ -311,7 +311,7 @@ namespace SmsService
              + " ORDER BY ClassOrder,sectionName, StudentName ";
 
             
-            SendSMSToParents.WriteErrorLog("the qry " + qry);
+            //SendSMSToParents.WriteErrorLog("the qry " + qry);
             
             DataTable dt = site.ExecuteSelect(qry);
             foreach (DataRow dr in dt.Rows)
@@ -668,7 +668,7 @@ namespace SmsService
 
                     + " GROUP BY s.StudentMasterID ";
 
-             SendSMSToParents.WriteErrorLog("qry 222 " + qry);
+             //SendSMSToParents.WriteErrorLog("qry 222 " + qry);
 
              site.Execute(qry);
 
