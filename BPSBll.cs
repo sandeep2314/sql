@@ -67,8 +67,55 @@ namespace AccountingSoftware.BLL
             public string PT30 { get; set; }
             public string PT31 { get; set; }
             public string PT32 { get; set; }
-            
 
+            public string PT41 { get; set; }
+            public string PT42 { get; set; }
+            public string PT43 { get; set; }
+            public string PT44 { get; set; }
+
+            public string PT45 { get; set; }
+            public string PT46 { get; set; }
+            public string PT47 { get; set; }
+            public string PT48 { get; set; }
+
+            public string PT49 { get; set; }
+            public string PT50 { get; set; }
+            public string PT51 { get; set; }
+            public string PT52 { get; set; }
+
+            public string PT53 { get; set; }
+            public string PT54 { get; set; }
+            public string PT55 { get; set; }
+            public string PT56 { get; set; }
+
+            public string PT57 { get; set; }
+            public string PT58 { get; set; }
+
+
+            public string PT41_MM { get; set; }
+            public string PT42_MM { get; set; }
+            public string PT43_MM { get; set; }
+            public string PT44_MM { get; set; }
+
+            public string PT45_MM { get; set; }
+            public string PT46_MM { get; set; }
+            public string PT47_MM { get; set; }
+            public string PT48_MM { get; set; }
+
+            public string PT49_MM { get; set; }
+            public string PT50_MM { get; set; }
+            public string PT51_MM { get; set; }
+            public string PT52_MM { get; set; }
+
+            public string PT53_MM { get; set; }
+            public string PT54_MM { get; set; }
+            public string PT55_MM { get; set; }
+            public string PT56_MM { get; set; }
+
+            public string PT57_MM { get; set; }
+            public string PT58_MM { get; set; }
+            
+            
 
             public string PT11_MM { get; set; }
             public string PT12_MM { get; set; }
@@ -503,32 +550,56 @@ namespace AccountingSoftware.BLL
             string theClass = "";
 
             bool isNur = false;
+            bool is9 = false;
+            bool is11 = false;
 
 
             /// 555
             foreach (DataRow dr in dt.Rows)
             {
 
-                theClass = util.CheckNull(dr["ClassName"]);
+                theClass = util.CheckNull(dr["ClassName"]).Trim();
 
                 if (theClass.StartsWith("Nursery") || theClass.StartsWith("LKG") || theClass.StartsWith("UKG"))
                     isNur = true;
+
+                is9 = theClass.StartsWith("IX");
+                is11 = theClass.StartsWith("XI");
 
 
                 // Marks Obtained
                 if (!isMM)
                 {
-                    overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest1"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook1"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA1"]), false)
+                    
+                    if (is9)
+                    {
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT23"]), false)
+                            + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT24"]), false);
+                    }
+
+                    else if (is11)
+                    {
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT25"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT26"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT13"]), false)
                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["HalfYearly"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT23"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT31"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT29"]), false)
 
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest2"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook2"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA2"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["Yearly"]), false);
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT27"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT28"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT14"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["Yearly"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT24"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT32"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT30"]), false);
+                                    
+                    }
 
-                    if(isNur)
+
+
+                    else if (isNur)
                     {
                         overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT15"]), false)
                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT16"]), false)
@@ -540,7 +611,19 @@ namespace AccountingSoftware.BLL
                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT20"]), false)
                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT24"]), false);
                     }
-                            
+                    else
+                    {
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest1"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook1"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA1"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["HalfYearly"]), false)
+
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest2"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook2"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA2"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["Yearly"]), false);
+
+                    }
 
 
 
@@ -548,20 +631,45 @@ namespace AccountingSoftware.BLL
                 }
                 else
                 {
-                    overallMarks += util.CheckNullDecimal(dr["PerTest1_MM"])
-                                    + util.CheckNullDecimal(dr["NoteBook1_MM"])
-                                    + util.CheckNullDecimal(dr["SEA1_MM"])
-                                    + util.CheckNullDecimal(dr["HalfYearly_MM"])
 
-                                    + util.CheckNullDecimal(dr["PerTest2_MM"])
-                                    + util.CheckNullDecimal(dr["NoteBook2_MM"])
-                                    + util.CheckNullDecimal(dr["SEA2_MM"])
-                                    + util.CheckNullDecimal(dr["Yearly_MM"]);
+                    
 
 
-
-                    if (isNur)
+                    if (is9)
                     {
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT23_MM"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT24_MM"]), false);
+
+
+                    }
+
+
+                   else if (is11)
+                    {
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT25_MM"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT26_MM"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT13_MM"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["HalfYearly_MM"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT23_MM"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT31_MM"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT29_MM"]), false)
+
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT27_MM"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT28_MM"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT14_MM"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["Yearly_MM"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT24_MM"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT32_MM"]), false)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT30_MM"]), false);
+
+                    }
+
+                    else if (isNur)
+                    {
+
+
+
+                        ////////////////
                         overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT15_MM"]), false)
                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT16_MM"]), false)
                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT18_MM"]), false)
@@ -571,6 +679,18 @@ namespace AccountingSoftware.BLL
                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT22_MM"]), false)
                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT20_MM"]), false)
                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT24_MM"]), false);
+                    }
+                    else
+                    {
+                        overallMarks += util.CheckNullDecimal(dr["PerTest1_MM"])
+                                    + util.CheckNullDecimal(dr["NoteBook1_MM"])
+                                    + util.CheckNullDecimal(dr["SEA1_MM"])
+                                    + util.CheckNullDecimal(dr["HalfYearly_MM"])
+
+                                    + util.CheckNullDecimal(dr["PerTest2_MM"])
+                                    + util.CheckNullDecimal(dr["NoteBook2_MM"])
+                                    + util.CheckNullDecimal(dr["SEA2_MM"])
+                                    + util.CheckNullDecimal(dr["Yearly_MM"]);
                     }
 
 
@@ -757,7 +877,30 @@ namespace AccountingSoftware.BLL
                         + " , MAX(PT30)PT30 "
                         + " , MAX(PT31)PT31 "
                         + " , MAX(PT32)PT32 "
-                        
+
+                        + " , MAX(PT41)PT41 "
+                        + " , MAX(PT42)PT42 "
+                        + " , MAX(PT43)PT43 "
+                        + " , MAX(PT44)PT44 "
+
+                        + " , MAX(PT45)PT45 "
+                        + " , MAX(PT46)PT46 "
+                        + " , MAX(PT47)PT47 "
+                        + " , MAX(PT48)PT48 "
+
+                        + " , MAX(PT49)PT49 "
+                        + " , MAX(PT50)PT50 "
+                        + " , MAX(PT51)PT51 "
+                        + " , MAX(PT52)PT52 "
+
+                        + " , MAX(PT53)PT53 "
+                        + " , MAX(PT54)PT54 "
+                        + " , MAX(PT55)PT55 "
+                        + " , MAX(PT56)PT56 "
+
+                        + " , MAX(PT57)PT57 "
+                        + " , MAX(PT58)PT58 "
+                       
 
 
                         + " , MAX(PT11_MM)PT11_MM "
@@ -915,7 +1058,66 @@ namespace AccountingSoftware.BLL
                         + " ,(CASE WHEN (ExamName = 'PT32' ) "
                         + " THEN IsNull(MAX(MarksObtained), '0') END) PT32 "
 
-                        
+
+                        + " ,(CASE WHEN (ExamName = 'PT41' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT41 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT42' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT42 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT43' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT43 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT44' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT44 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT45' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT45 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT46' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT46 "
+
+
+                        + " ,(CASE WHEN (ExamName = 'PT47' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT47 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT48' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT48 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT49' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT49 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT50' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT50 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT51' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT51 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT52' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT52 "
+
+
+
+                        + " ,(CASE WHEN (ExamName = 'PT53' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT53 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT54' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT54 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT55' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT55 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT56' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT56 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT57' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT57 "
+
+                        + " ,(CASE WHEN (ExamName = 'PT58' ) "
+                        + " THEN IsNull(MAX(MarksObtained), '0') END) PT58 "
+
+
+
 
                         + "  , (CASE WHEN (ExamName = 'PT11' )  "
                         + "       THEN IsNull(MAX(MaxMarks), '0') END) PT11_MM  "
@@ -989,6 +1191,61 @@ namespace AccountingSoftware.BLL
                         + "       THEN IsNull(MAX(MaxMarks), '0') END) PT32_MM  "
 
 
+
+                        + "  , (CASE WHEN (ExamName = 'PT41' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT41_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT42' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT42_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT43' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT43_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT44' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT44_MM  "
+
+                         + "  , (CASE WHEN (ExamName = 'PT45' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT45_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT46' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT46_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT47' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT47_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT48' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT48_MM  "
+
+                         + "  , (CASE WHEN (ExamName = 'PT49' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT49_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT50' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT50_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT51' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT51_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT52' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT52_MM  "
+
+
+                         + "  , (CASE WHEN (ExamName = 'PT53' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT53_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT54' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT54_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT55' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT55_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT56' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT56_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT57' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT57_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT58' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT58_MM  "
 
 
                         + "  , (CASE WHEN (ExamName = 'PT1' )  "
@@ -1864,6 +2121,8 @@ namespace AccountingSoftware.BLL
                 isNur = true;
 
             bool is11 = theClass.StartsWith("XI");
+            
+            bool is9 = theClass.StartsWith("IX");
 
 
             
@@ -1880,6 +2139,23 @@ namespace AccountingSoftware.BLL
                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA1), isMM)
                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.HalfYearly), isMM);
 
+                    if (is9)
+                        first_Term_total += CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT23), isMM);
+
+                    if (is11)
+                    {
+                        first_Term_total =
+                                         CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT25), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT26), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT13), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.HalfYearly), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT23), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT31), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT29), isMM);
+                            
+                    }
+                        
+
 
                         if (isNur)
                         {
@@ -1891,15 +2167,7 @@ namespace AccountingSoftware.BLL
                         }
 
 
-                        if (is11)
-                        {
-                            first_Term_total =
-                                       CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT13), isMM)
-                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.HalfYearly), isMM)
-                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT30), isMM)
-                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT23), isMM)
-                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT29), isMM);
-                        }
+                       
                         
 
 
@@ -1911,6 +2179,11 @@ namespace AccountingSoftware.BLL
                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook1_MM), isMM)
                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA1_MM), isMM)
                                      + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.HalfYearly_MM), isMM);
+
+                    if (is9)
+                        first_Term_total += CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT23_MM), isMM);
+
+
 
                     if (isNur)
                     {
@@ -1926,13 +2199,15 @@ namespace AccountingSoftware.BLL
                     if (is11)
                     {
                         first_Term_total =
-                                   CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT13_MM), isMM)
-                                   + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.HalfYearly_MM), isMM)
-                                   + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT30_MM), isMM)
-                                   + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT23_MM), isMM)
-                                   + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT29_MM), isMM);
-                    }
+                                         CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT25_MM), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT26_MM), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT13_MM), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.HalfYearly_MM), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT23_MM), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT31_MM), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT29_MM), isMM);
 
+                    }
 
                 }
             }
@@ -1951,6 +2226,11 @@ namespace AccountingSoftware.BLL
                                      + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.Yearly), isMM);
 
 
+                    if (is9)
+                        second_Term_total += CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT24), isMM);
+
+
+
                     if (isNur)
                     {
                         second_Term_total =
@@ -1964,11 +2244,13 @@ namespace AccountingSoftware.BLL
                     if (is11)
                     {
                         second_Term_total =
-                                      CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT14), isMM)
+                                        CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT27), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT28), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT14), isMM)
                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.Yearly), isMM)
-                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT31), isMM)
                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT24), isMM)
-                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT32), isMM);
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT32), isMM)
+                                       +CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT30), isMM);
 
                     }
 
@@ -1980,6 +2262,9 @@ namespace AccountingSoftware.BLL
                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook2_MM), isMM)
                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA2_MM), isMM)
                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.Yearly_MM), isMM);
+
+                    if (is9)
+                        second_Term_total += CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT24_MM), isMM);
 
 
                     if (isNur)
@@ -1995,13 +2280,16 @@ namespace AccountingSoftware.BLL
                     if (is11)
                     {
                         second_Term_total =
-                                      CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT14_MM), isMM)
+                                        CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT27_MM), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT28_MM), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT14_MM), isMM)
                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.Yearly_MM), isMM)
-                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT31_MM), isMM)
                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT24_MM), isMM)
-                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT32_MM), isMM);
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT32_MM), isMM)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT30_MM), isMM);
 
                     }
+
 
                 }
             }
