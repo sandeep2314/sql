@@ -40,6 +40,10 @@ namespace AccountingSoftware.BLL
             public string PT3 { get; set; }
             public string PT4 { get; set; }
 
+            public string PT3_MM { get; set; }
+            public string PT4_MM { get; set; }
+
+
             public string PT11 { get; set; }
             public string PT12 { get; set; }
             public string PT13 { get; set; }
@@ -358,8 +362,16 @@ namespace AccountingSoftware.BLL
                 return GetTotal_LA(rc, isHalfYearly, isMM);
                 
             }
-                
+            else if (Util_BLL.User.UserName.StartsWith("DPS"))
+            {
+                return GetTotal_DPS(rc, isHalfYearly, isMM);
+            }
 
+            else if (Util_BLL.User.UserName.StartsWith("BPS"))
+            {
+                return GetTotal_BPS(rc, isHalfYearly, isMM);
+            }
+             
 
             decimal first_Term_total = 0;
             decimal second_Term_total = 0;
@@ -502,7 +514,7 @@ namespace AccountingSoftware.BLL
         }
 
 
-        public decimal GetOverAllMarks_BPS(DataTable dt, bool isMM, bool isHalfYearly)
+        public decimal GetOverAllMarks_BPSOld(DataTable dt, bool isMM, bool isHalfYearly)
         {
             decimal overallMarks = 0;
 
@@ -712,8 +724,17 @@ namespace AccountingSoftware.BLL
             {
                 return GetOverAllMarks_LA(dt, isMM, isHalfYearly );
             }
-            
-            
+
+            if (Util_BLL.User.UserName.StartsWith("DPS"))
+            {
+                return GetOverAllMarks_DPS(dt, isMM, isHalfYearly);
+            }
+
+            if (Util_BLL.User.UserName.StartsWith("BPS"))
+            {
+                return GetOverAllMarks_BPS(dt, isMM, isHalfYearly);
+            }
+
             decimal overallMarks = 0;
 
             // add all subject total marks obtained
@@ -900,8 +921,10 @@ namespace AccountingSoftware.BLL
 
                         + " , MAX(PT57)PT57 "
                         + " , MAX(PT58)PT58 "
-                       
 
+                         + " , MAX(PT3_MM)PT3_MM "
+                        + " , MAX(PT4_MM)PT4_MM "
+                       
 
                         + " , MAX(PT11_MM)PT11_MM "
                         + " , MAX(PT12_MM)PT12_MM "
@@ -926,12 +949,36 @@ namespace AccountingSoftware.BLL
                         + " , MAX(PT27_MM)PT27_MM "
                         + " , MAX(PT28_MM)PT28_MM "
 
-
                         + " , MAX(PT29_MM)PT29_MM "
                         + " , MAX(PT30_MM)PT30_MM "
                         + " , MAX(PT31_MM)PT31_MM "
                         + " , MAX(PT32_MM)PT32_MM "
-                       
+
+                        + " , MAX(PT41_MM)PT41_MM "
+                        + " , MAX(PT42_MM)PT42_MM "
+                        + " , MAX(PT43_MM)PT43_MM "
+                        + " , MAX(PT44_MM)PT44_MM "
+
+                        + " , MAX(PT45_MM)PT45_MM "
+                        + " , MAX(PT46_MM)PT46_MM "
+                        + " , MAX(PT47_MM)PT47_MM "
+                        + " , MAX(PT48_MM)PT48_MM "
+
+                        + " , MAX(PT49_MM)PT49_MM "
+                        + " , MAX(PT50_MM)PT50_MM "
+                        + " , MAX(PT51_MM)PT51_MM "
+                        + " , MAX(PT52_MM)PT52_MM "
+
+                        + " , MAX(PT53_MM)PT53_MM "
+                        + " , MAX(PT54_MM)PT54_MM "
+                        + " , MAX(PT55_MM)PT55_MM "
+
+                        + " , MAX(PT56_MM)PT56_MM "
+                        + " , MAX(PT57_MM)PT57_MM "
+                        + " , MAX(PT58_MM)PT58_MM "
+
+
+
 
                         + "  , MAX(PerTest1_Code) PerTest1_Code "
                         + " , MAX(NoteBook1_Code)NoteBook1_Code  "
@@ -1116,6 +1163,11 @@ namespace AccountingSoftware.BLL
                         + " ,(CASE WHEN (ExamName = 'PT58' ) "
                         + " THEN IsNull(MAX(MarksObtained), '0') END) PT58 "
 
+                           + "  , (CASE WHEN (ExamName = 'PT3' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT3_MM  "
+
+                        + "  , (CASE WHEN (ExamName = 'PT4' )  "
+                        + "       THEN IsNull(MAX(MaxMarks), '0') END) PT4_MM  "
 
 
 
@@ -1432,8 +1484,38 @@ namespace AccountingSoftware.BLL
                 reportCard.PT30 = util.CheckNull(dr["PT30"]);
                 reportCard.PT31 = util.CheckNull(dr["PT31"]);
                 reportCard.PT32 = util.CheckNull(dr["PT32"]);
-                
 
+
+                reportCard.PT41 = util.CheckNull(dr["PT41"]);
+                reportCard.PT42 = util.CheckNull(dr["PT42"]);
+                reportCard.PT43 = util.CheckNull(dr["PT43"]);
+                reportCard.PT44 = util.CheckNull(dr["PT44"]);
+
+                reportCard.PT45 = util.CheckNull(dr["PT45"]);
+                reportCard.PT46 = util.CheckNull(dr["PT46"]);
+                reportCard.PT47 = util.CheckNull(dr["PT47"]);
+                reportCard.PT48 = util.CheckNull(dr["PT48"]);
+
+                reportCard.PT49 = util.CheckNull(dr["PT49"]);
+                reportCard.PT50 = util.CheckNull(dr["PT50"]);
+                reportCard.PT51 = util.CheckNull(dr["PT51"]);
+                reportCard.PT52 = util.CheckNull(dr["PT52"]);
+
+
+                reportCard.PT53 = util.CheckNull(dr["PT53"]);
+                reportCard.PT54 = util.CheckNull(dr["PT54"]);
+                reportCard.PT55 = util.CheckNull(dr["PT55"]);
+
+                
+                reportCard.PT56 = util.CheckNull(dr["PT56"]);
+                reportCard.PT57 = util.CheckNull(dr["PT57"]);
+                reportCard.PT58 = util.CheckNull(dr["PT58"]);
+
+
+
+                reportCard.PT3_MM = util.CheckNull(dr["PT3_MM"]);
+                reportCard.PT4_MM = util.CheckNull(dr["PT4_MM"]);
+                
 
                 reportCard.PT11_MM = util.CheckNull(dr["PT11_MM"]);
                 reportCard.PT12_MM = util.CheckNull(dr["PT12_MM"]);
@@ -1461,7 +1543,36 @@ namespace AccountingSoftware.BLL
                 reportCard.PT30_MM = util.CheckNull(dr["PT30_MM"]);
                 reportCard.PT31_MM = util.CheckNull(dr["PT31_MM"]);
                 reportCard.PT32_MM = util.CheckNull(dr["PT32_MM"]);
-                
+
+
+
+                reportCard.PT41_MM = util.CheckNull(dr["PT41_MM"]);
+                reportCard.PT42_MM = util.CheckNull(dr["PT42_MM"]);
+                reportCard.PT43_MM = util.CheckNull(dr["PT43_MM"]);
+                reportCard.PT44_MM = util.CheckNull(dr["PT44_MM"]);
+
+                reportCard.PT45_MM = util.CheckNull(dr["PT45_MM"]);
+                reportCard.PT46_MM = util.CheckNull(dr["PT46_MM"]);
+                reportCard.PT47_MM = util.CheckNull(dr["PT47_MM"]);
+                reportCard.PT48_MM = util.CheckNull(dr["PT48_MM"]);
+
+                reportCard.PT49_MM = util.CheckNull(dr["PT49_MM"]);
+                reportCard.PT50_MM = util.CheckNull(dr["PT50_MM"]);
+                reportCard.PT51_MM = util.CheckNull(dr["PT51_MM"]);
+                reportCard.PT52_MM = util.CheckNull(dr["PT52_MM"]);
+
+
+                reportCard.PT53_MM = util.CheckNull(dr["PT53_MM"]);
+                reportCard.PT54_MM = util.CheckNull(dr["PT54_MM"]);
+                reportCard.PT55_MM = util.CheckNull(dr["PT55_MM"]);
+
+
+                reportCard.PT56_MM = util.CheckNull(dr["PT56_MM"]);
+                reportCard.PT57_MM = util.CheckNull(dr["PT57_MM"]);
+                reportCard.PT58_MM = util.CheckNull(dr["PT58_MM"]);
+
+
+
 
                 //reportCard.PT1 = BestOfTwo(reportCard.PT1, reportCard.PT2);
                 //reportCard.PT3 = BestOfTwo(reportCard.PT3, reportCard.PT4);
@@ -1514,7 +1625,7 @@ namespace AccountingSoftware.BLL
                 reportCard.Total_Remarks_HalfYearly = GetGradeRemarks(percentage_mo, false);
 
 
-                //888 yearly total
+                
 
                 reportCard.SubjectTotal_Yearly = GetTotal(reportCard, false, false);
                 reportCard.SubjectTotal_MM_Yearly = GetTotal(reportCard, false, true);
@@ -1610,6 +1721,8 @@ namespace AccountingSoftware.BLL
                 reportCard.Yearly = util.CheckNull(dr["Yearly"]);
                 reportCard.PT20 = util.CheckNull(dr["PT20"]);
                 reportCard.PT24 = util.CheckNull(dr["PT24"]);
+                reportCard.PT44 = util.CheckNull(dr["PT44"]);
+                reportCard.PT51 = util.CheckNull(dr["PT51"]);
 
 
                 ReportCardList.Add(reportCard);
@@ -2305,6 +2418,463 @@ namespace AccountingSoftware.BLL
 
 
         // end
+
+        // DPS Bijnor
+
+
+        public decimal GetTotal_DPS(ReportCardCBSEEntity rc, bool isHalfYearly, bool isMM)
+        {
+            decimal first_Term_total = 0;
+            decimal second_Term_total = 0;
+            decimal total = 0;
+
+            string theClass = util.CheckNull(rc.ClassName).Trim();
+
+            bool isNur = false;
+
+            if (theClass.StartsWith("NURSERY") || theClass.StartsWith("LKG") || theClass.StartsWith("UKG"))
+                isNur = true;
+
+            bool is15 = false ;
+            if (theClass.StartsWith("I")
+                    || theClass.StartsWith("II")
+                    || theClass.StartsWith("III")
+                    || theClass.StartsWith("IV")
+                    || theClass.Equals("V"))
+            {
+                is15 = true;
+            }
+                    
+
+            bool is67 = theClass.StartsWith("IX");
+            if (theClass.StartsWith("VI") || theClass.StartsWith("VII"))
+                is67 = true;
+
+
+
+            if (isHalfYearly)
+            {
+                if (!isMM)
+                {
+
+
+                    if (is15)
+                    {
+                        first_Term_total =
+                                        CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook1), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA1), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT47), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT1), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT57), isMM);
+                                        
+                    }
+
+                     if (is67)
+                    {
+                        first_Term_total =
+                                       first_Term_total =
+                                        CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook1), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA1), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT1), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT45), isMM);
+                           
+
+                    }
+
+
+
+                    if (isNur)
+                    {
+                        first_Term_total =
+                                   CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT48), isMM)
+                                   + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT49), isMM);
+                    }
+
+
+
+                }
+                else
+                {
+
+                    if (is15)
+                    {
+                        first_Term_total =
+                                          CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook1_MM), isMM)
+                                          + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA1_MM), isMM)
+                                          + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT47_MM), isMM)
+                                          + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT1_MM), isMM)
+                                          + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT57_MM), isMM);
+                    }
+
+
+
+                    if (isNur)
+                    {
+                        first_Term_total =
+                                   CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT48_MM), isMM)
+                                   + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT49_MM), isMM);
+                    }
+
+                    
+
+
+
+                    if (is67)
+                    {
+                        first_Term_total =
+                                       first_Term_total =
+                                        CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook1_MM), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA1_MM), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT1_MM), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT45_MM), isMM);
+                        
+                      
+                    }
+
+                }
+            }
+            else // Second Term
+            {
+
+                if (!isMM)
+                {
+
+                    if (is15)
+                    {
+
+                        second_Term_total =
+                                         CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook2), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA2), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT22), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT3), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT44), isMM);
+                                         
+                    }
+
+                    
+
+                    if (isNur)
+                    {
+                        second_Term_total =
+                                          CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT50), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT51), isMM);
+                        
+                     
+                    }
+
+                    if (is67)
+                    {
+                        second_Term_total =
+                                         CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook2), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA2), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT3), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT46), isMM);
+                       
+                    }
+
+
+                }
+                else
+                {
+                    if (is15)
+                    {
+                        //888
+
+                        second_Term_total =
+                                         CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook2_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA2_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT22_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT3_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT44_MM), isMM);
+
+                    }
+
+                   
+
+                    if (isNur)
+                    {
+                        second_Term_total =
+                                          CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT50_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT51_MM), isMM);
+                        
+                    }
+
+                    if (is67)
+                    {
+                        second_Term_total =
+                                        CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook2_MM), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA2_MM), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT3_MM), isMM)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT46_MM), isMM);
+                      
+                    }
+
+
+                }
+            }
+
+            if (isHalfYearly)
+                total = first_Term_total;
+            else
+                total = second_Term_total;
+
+            return total;
+        }
+
+        public decimal GetOverAllMarks_DPS(DataTable dt, bool isMM, bool isHalfYearly)
+        {
+            decimal overallMarks = 0;
+
+            string theClass = "";
+
+            bool isNur = false;
+            bool is15 = false;
+            bool is67 = false;
+
+            /// 555
+            foreach (DataRow dr in dt.Rows)
+            {
+
+                theClass = util.CheckNull(dr["ClassName"]).Trim();
+
+                if (theClass.StartsWith("NURSERY") || theClass.StartsWith("LKG") || theClass.StartsWith("UKG"))
+                    isNur = true;
+
+                is15 = false;
+                if (theClass.StartsWith("I")
+                        || theClass.StartsWith("II")
+                        || theClass.StartsWith("III")
+                        || theClass.StartsWith("IV")
+                        || theClass.Equals("V"))
+                {
+                    is15 = true;
+                }
+
+                
+                is67 = false;
+                if (theClass.StartsWith("VI") || theClass.StartsWith("VII"))
+                    is67 = true;
+
+
+                // Marks Obtained
+                if (!isMM)
+                {
+
+                    if (is15)
+                    {
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook1"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA1"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT47"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest1"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT57"]), false)
+
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook2"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA2"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT22"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT3"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT44"]), false);
+                            
+                    }
+
+                    else if (is67)
+                    {
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook1"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA1"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest1"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT45"]), false)
+
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook2"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA2"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT3"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT46"]), false);
+                            
+                    }
+
+
+
+                    else if (isNur)
+                    {
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT48"]), false)
+                                   + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT49"]), false)
+
+                                   + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT50"]), false)
+                                   + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT51"]), false);
+                                   
+                    }
+                  
+
+
+
+                }
+                else
+                {
+
+
+
+
+                    if (is15)
+                    {
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook1_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA1_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT47_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest1_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT57_MM"]), false)
+
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook2_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA2_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT22_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT43_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT44_MM"]), false);
+
+                    }
+
+                    else if (is67)
+                    {
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook1_MM"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA1_MM"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest1_MM"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT45_MM"]), false)
+
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook2_MM"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA2_MM"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT3_MM"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT46_MM"]), false);
+                        
+
+                    }
+
+                    else if (isNur)
+                    {
+
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT48"]), false)
+                                   + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT49"]), false)
+
+                                   + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT50"]), false)
+                                   + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT51"]), false);
+                    }
+                  
+                }
+
+
+            }
+
+            return overallMarks;
+
+        }
+
+
+
+
+
+        /// END
+
+
+        /// BPS
+        public decimal GetTotal_BPS(ReportCardCBSEEntity rc, bool isHalfYearly, bool isMM)
+        {
+            decimal first_Term_total = 0;
+            decimal second_Term_total = 0;
+            decimal total = 0;
+
+           
+
+
+            if (isHalfYearly)
+            {
+                if (!isMM)
+                {
+
+                    first_Term_total =
+                                         CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT1), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.HalfYearly), isMM);
+                                        
+
+
+                }
+                else
+                {
+
+                    first_Term_total =
+                                         CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT1_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.HalfYearly_MM), isMM);
+                    
+
+                }
+            }
+            else // Second Term
+            {
+
+                if (!isMM)
+                {
+
+
+                    second_Term_total =
+                                     CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT2), isMM)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.Yearly), isMM);
+                                         
+                    
+
+
+                }
+                else
+                {
+                    second_Term_total =
+                                    CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT2_MM), isMM)
+                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.Yearly_MM), isMM);
+                    
+
+                }
+            }
+
+            if (isHalfYearly)
+                total = first_Term_total;
+            else
+                total = second_Term_total;
+
+            return total;
+        }
+
+
+
+
+        public decimal GetOverAllMarks_BPS(DataTable dt, bool isMM, bool isHalfYearly)
+        {
+            decimal overallMarks = 0;
+
+            foreach (DataRow dr in dt.Rows)
+            {
+
+                // Marks Obtained
+                if (!isMM)
+                {
+
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest1"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["HalfYearly"]), false)
+                                        
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest2"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["Yearly"]), false);
+                                        
+                    
+                }
+                else
+                {
+                    overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest1_MM"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["HalfYearly_MM"]), false)
+
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest2_MM"]), false)
+                                       + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["Yearly_MM"]), false);
+                        
+                }
+
+
+            }
+
+            return overallMarks;
+
+        }
+
+ 
+        /// END
 
 
 
