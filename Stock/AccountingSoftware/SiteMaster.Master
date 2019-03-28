@@ -1,0 +1,157 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="SiteMaster.Master.cs"
+    Inherits="AccountingSoftware.Site1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>iCollegeManager Mob. +91 921 948 4030  Online School College Management Software</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link href="css/MyCss.css" rel="stylesheet" type="text/css" />
+    <link href="css/menuTrn.css" rel="stylesheet" type="text/css" />
+    <link href="css%20Menu_files/css3menu1/style.css" rel="stylesheet" type="text/css" />
+     
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+
+
+
+<div id="menuContainer">
+    <asp:Menu ID="menuTransaction" runat="server"  PathSeparator="|" Orientation="Horizontal">
+        
+        <StaticMenuStyle CssClass="StaticMenuItem" />
+        <StaticMenuItemStyle CssClass="StaticMenuItemStyle" />
+        <StaticHoverStyle CssClass="StaticHoverStyle" />
+        <StaticSelectedStyle CssClass="StaticSelectedStyle" />
+        <DynamicMenuItemStyle CssClass="DynamicMenuItemStyle" />
+        <DynamicHoverStyle CssClass="DynamicHoverStyle" />
+   </asp:Menu>
+   </div>
+   <%--   
+    <table width="100%">
+    <tr>
+    <td>
+ <div class="header-div">
+        Accounting Software
+    </div>
+    </td>
+    </tr>
+    <tr>
+    <td>
+    <div class="menu-div">
+
+    <ul id="css3menu1" class="topmenu">
+	<li class="topfirst"><a href="~/Master/Home.aspx" runat="server" style="width:80px;height:7px;line-height:7px;">Home</a></li>
+	<li id="menu_master"  runat="server" class="topmenu"><a href="#" style="width:100px;height:7px;line-height:7px;"><span>Master</span></a>
+	<ul>
+		<li><a href="~/Master/GroupMasterData.aspx" runat="server">Group Master</a></li>
+		<!--
+        <li><a href="~/Master/TaxMaster.aspx" runat="server">Tax Master</a></li>
+        -->
+        <li><a href="~/Master/StockTransaction.aspx" runat="server">Stock Transaction Master</a></li>
+		<li><a href="~/Master/AccountMaster.aspx" runat="server">Account Master</a></li>
+
+		<li><a href="~/Master/ProductMaster.aspx" runat="server">Product Master</a></li>
+	</ul></li>
+	<!--
+    <li class="topmenu"><a href="#" style="width:100px;height:7px;line-height:7px;"><span>Transaction Type</span></a>
+	<ul>
+		<li><a href="~/Master/Sales.aspx?TransactionType=Sales" runat="server">Sales</a></li>
+		<li><a href="~/Master/Sales.aspx?TransactionType=Purchase" runat="server">Purchase</a></li>
+		<li><a href="~/Master/Payment.aspx?TransactionType=PaymentMade" runat="server">Payment Made</a></li>
+
+		<li><a href="~/Master/Payment.aspx?TransactionType=PaymentRcd" runat="server">Payment Received </a></li>
+	</ul></li>
+    -->
+
+	<li  id="menu_stock" runat="server" class="topmenu"><a href="#" style="width:80px;height:7px;line-height:7px;">Stock</a>
+    <ul>
+		<li><a id="A2" href="~/Master/StockMovement.aspx" runat="server">Stock Entry</a></li>
+		<li><a id="A3" href="~/Master/StockList.aspx" runat="server">Stock List</a></li>
+
+	</ul></li>
+	<li  id="menu_reports" class="topmenu" runat="server"><a href="#" style="width:80px;height:7px;line-height:7px;"><span>Reports</span></a>
+	<ul>
+		<li><a href="~/Master/AccountReport.aspx" runat="server">Account Report</a></li>
+		<li><a href="~/Master/ProductReport.aspx" runat="server">Product Report</a></li>
+        <li id="menu_productLedgerReport" runat="server"><a id="A4" href="~/Master/ProductLedgerReport.aspx" runat="server">Product Ledger</a></li>
+
+	</ul></li>
+	<!--
+    <li class="topmenu"><a href="~/Master/UserInfo.aspx" runat="server" style="width:50px;height:7px;line-height:7px;">User</a></li>
+   -->
+    <li class="topmenu"   id="menu_subuser" runat="server"><a id="A1" href="~/Master/SubuserInfo.aspx" runat="server" style="width:80px;height:7px;line-height:7px;">Subuser</a></li>
+	<li class="toplast"><a href="~/Master/Logout.aspx" runat="server" style="width:80px;height:7px;line-height:7px;">Logout</a></li>
+</ul>
+        <%--<asp:Menu ID="Menu1" runat="server" Orientation="Horizontal" 
+            StaticMenuItemStyle-Width="60px" StaticHoverStyle-BackColor="#CC0000"  DynamicHoverStyle-BackColor="red"
+            StaticMenuItemStyle-HorizontalPadding="50px" BackColor="#990000" 
+            DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="0.95em" Font-Bold="true"
+            ForeColor="white" StaticSubMenuIndent="10px">
+<DynamicHoverStyle BackColor="#CC0000" ForeColor="White"></DynamicHoverStyle>
+            <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+            <DynamicMenuStyle BackColor="#990000" />
+            <DynamicSelectedStyle BackColor="#5D7B9D" />
+            <Items>
+                <asp:MenuItem Text="Home" Value="Home"></asp:MenuItem>
+                <asp:MenuItem Text="Master Information" Value="Master Information">
+                    <asp:MenuItem NavigateUrl="~/Master/GroupMasterData.aspx" Text="Group Master" 
+                        Value="Group Master" ></asp:MenuItem>
+                    <asp:MenuItem NavigateUrl="~/Master/TaxMaster.aspx" Text="Tax Master" 
+                        Value="Tax Master"></asp:MenuItem>
+                    <asp:MenuItem NavigateUrl="~/Master/AccountMaster.aspx" 
+                        Text="Account Master" Value="Account Master"></asp:MenuItem>
+                    <asp:MenuItem NavigateUrl="~/Master/ProductMaster.aspx" 
+                        Text="Product Master" Value="Product Master"></asp:MenuItem>
+                </asp:MenuItem>
+                <asp:MenuItem Text="Transaction Type" Value="Transaction Type">
+                    <asp:MenuItem NavigateUrl="~/Master/Sales.aspx?TransactionType=Sales" 
+                        Text="Sales" Value="Sales">
+                    </asp:MenuItem>
+                    <asp:MenuItem NavigateUrl="~/Master/Sales.aspx?TransactionType=Purchase" 
+                        Text="Purchase" Value="Purchase"></asp:MenuItem>
+                    <asp:MenuItem NavigateUrl="~/Master/Payment.aspx?TransactionType=PaymentMade" Text="Payment Made" 
+                        Value="Payment"></asp:MenuItem>
+                    <asp:MenuItem NavigateUrl="~/Master/Payment.aspx?TransactionType=PaymentRcd" 
+                        Text="Payment Received" Value="Payment Received"></asp:MenuItem>
+                </asp:MenuItem>
+                <asp:MenuItem NavigateUrl="~/Master/Issue.aspx" Text="Issue" Value="Issue">
+                </asp:MenuItem>
+                <asp:MenuItem Text="Reports" Value="Reports">
+                    <asp:MenuItem NavigateUrl="~/Master/ProductReport.aspx" Text="Product Report" 
+                        Value="Product Report"></asp:MenuItem>
+                    <asp:MenuItem NavigateUrl="~/Master/AccountReport.aspx" Text="Accounts Report" 
+                        Value="Accounts Report"></asp:MenuItem>
+                </asp:MenuItem>
+                <asp:MenuItem NavigateUrl="~/Master/UserInfo.aspx" Text="User Info" 
+                    Value="User Info"></asp:MenuItem>
+                <asp:MenuItem NavigateUrl="~/Master/Logout.aspx" Text="Logout" Value="Logout">
+                </asp:MenuItem>
+            </Items>
+
+<StaticHoverStyle BackColor="#CC0000" ForeColor="White"></StaticHoverStyle>
+
+<StaticMenuItemStyle HorizontalPadding="40px" Width="60px" VerticalPadding="2px"></StaticMenuItemStyle>
+            <StaticSelectedStyle BackColor="#5D7B9D" />
+
+        </asp:Menu>--%>    
+    </div>    
+    </td>
+    </tr>
+    
+    
+    <tr>
+    <td>
+    <div class="content-div">
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    </td>
+    </tr>
+    </table>
+    </form>
+</body>
+</html>
