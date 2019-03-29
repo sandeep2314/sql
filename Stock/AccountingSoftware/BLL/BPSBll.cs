@@ -1748,6 +1748,7 @@ namespace AccountingSoftware.BLL
                 reportCard.PT24 = util.CheckNull(dr["PT24"]);
                 reportCard.PT44 = util.CheckNull(dr["PT44"]);
                 reportCard.PT51 = util.CheckNull(dr["PT51"]);
+                reportCard.PT21 = util.CheckNull(dr["PT21"]);
 
 
                 ReportCardList.Add(reportCard);
