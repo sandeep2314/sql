@@ -84,6 +84,17 @@ INSERT INTO tblClassMaster (ClassName, ClassOrder, USERID, Fyear)
 VALUES('IV C', @cOrder+ 10,  @UID, 2014)
 
 
+SET @cOrder = @cOrder+ 10
+INSERT INTO tblClassMaster (ClassName, ClassOrder, USERID, Fyear) 
+VALUES('V A', @cOrder+ 10,  @UID, 2014)
+
+SET @cOrder = @cOrder+ 10
+INSERT INTO tblClassMaster (ClassName, ClassOrder, USERID, Fyear) 
+VALUES('V B', @cOrder+ 10,  @UID, 2014)
+
+SET @cOrder = @cOrder+ 10
+INSERT INTO tblClassMaster (ClassName, ClassOrder, USERID, Fyear) 
+VALUES('V C', @cOrder+ 10,  @UID, 2014)
 
 
 
