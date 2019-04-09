@@ -6,6 +6,8 @@
 -- select * from tblExamMaster
 -- Select * from tblUserInfo
 -- select * from tblClassMaster
+-- select * from tblSectionMaster WHERE userID=36
+-- DELETE from tblSectionMaster WHERE userID <> 36
 
 --BEGIN TRANSACTION 
 
