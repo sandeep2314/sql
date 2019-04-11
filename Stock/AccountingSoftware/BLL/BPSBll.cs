@@ -2912,6 +2912,16 @@ namespace AccountingSoftware.BLL
             decimal best1 = 0;
             decimal best2 = 0;
 
+            string theClass = "";
+
+            //theClass = util.CheckNull(dr["ClassName"]).Trim();
+            theClass = rc.ClassName;
+
+            bool is11 = false ;
+            is11 = (theClass.Equals("XI Arts") || theClass.Equals("XI SC") || theClass.Equals("XI Com"));
+                 
+
+
 
             if (isHalfYearly)
             {
@@ -2925,6 +2935,20 @@ namespace AccountingSoftware.BLL
                                          + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.HalfYearly), isMM);
 
 
+                    if (is11)
+                    {
+                        first_Term_total =
+                                         CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT_1_2_best), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook1), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT11), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA1), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.HalfYearly), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT13), isMM);
+
+                    }
+
+
+
 
                 }
                 else
@@ -2935,6 +2959,19 @@ namespace AccountingSoftware.BLL
                                          + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook1_MM), isMM)
                                          + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA1_MM), isMM)
                                          + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.HalfYearly_MM), isMM);
+
+
+                    if (is11)
+                    {
+                        first_Term_total =
+                                         CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT1_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook1_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT11_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA1_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.HalfYearly_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT13_MM), isMM);
+
+                    }
 
 
                 }
@@ -2952,6 +2989,19 @@ namespace AccountingSoftware.BLL
                                      + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA2), isMM)
                                      + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.Yearly), isMM);
 
+                    if (is11)
+                    {
+                        second_Term_total =
+                                         CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT_3_4_best), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook2), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT12), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA2), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.Yearly), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT14), isMM);
+
+                    }
+
+
 
 
 
@@ -2963,6 +3013,19 @@ namespace AccountingSoftware.BLL
                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook2_MM), isMM)
                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA2_MM), isMM)
                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.Yearly_MM), isMM);
+
+
+                    if (is11)
+                    {
+                        second_Term_total =
+                                         CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT3_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.NoteBook2_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT12_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.SEA2_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.Yearly_MM), isMM)
+                                         + CheckMedicalOrAbsent(util.CheckNullDecimal(rc.PT14_MM), isMM);
+
+                    }
 
 
                 }
@@ -2986,41 +3049,105 @@ namespace AccountingSoftware.BLL
             Decimal best1 = 0;
             Decimal best2 = 0;
 
+            
+            
+            bool is11 = false;
+            
+            
+
 
             foreach (DataRow dr in dt.Rows)
             {
 
+                string theClass = "";
+                theClass = util.CheckNull(dr["ClassName"]).Trim();
+                is11 = (theClass.Equals("XI Arts") || theClass.Equals("XI SC") || theClass.Equals("XI Com"));
+
                 // Marks Obtained
                 if (!isMM)
                 {
-
-                    
+                                        
                     best1 = util.CheckNullDecimal(BestOfTwo(CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest1"]), false).ToString(), CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest2"]), false).ToString()));
                     best2 = util.CheckNullDecimal(BestOfTwo(CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT3"]), false).ToString(), CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT4"]), false).ToString()));
-                    
-                    overallMarks += best1
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook1"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA1"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["HalfYearly"]), false)
 
-                                    + best2
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook2"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA2"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["Yearly"]), false);
+
+
+                    if (is11)
+                    {
+                        overallMarks += best1
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook1"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA1"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT11"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["HalfYearly"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT13"]), false)
+
+                                     + best2
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook2"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA2"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT12"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["Yearly"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT14"]), false);
+
+
+                    }
+                    else
+                    {
+
+
+
+                        overallMarks += best1
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook1"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA1"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["HalfYearly"]), false)
+
+                                        + best2
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook2"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA2"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["Yearly"]), false);
+
+
+                    }
+
 
 
                 }
                 else
                 {
-                    overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest1_MM"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook1_MM"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA1_MM"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["HalfYearly_MM"]), false)
 
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest2_MM"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook2_MM"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA2_MM"]), false)
-                                    + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["Yearly_MM"]), false);
+
+
+                    if (is11)
+                    {
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest1_MM"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook1_MM"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA1_MM"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT11_MM"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["HalfYearly_MM"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT13_MM"]), false)
+
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest2_MM"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook2_MM"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA2_MM"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT12_MM"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["Yearly_MM"]), false)
+                                     + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PT14_MM"]), false);
+
+
+                    }
+                    else
+                    {
+
+
+                        overallMarks += CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest1_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook1_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA1_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["HalfYearly_MM"]), false)
+
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["PerTest2_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["NoteBook2_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["SEA2_MM"]), false)
+                                        + CheckMedicalOrAbsent(util.CheckNullDecimal(dr["Yearly_MM"]), false);
+                    }
 
                 }
 
