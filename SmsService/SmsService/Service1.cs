@@ -57,9 +57,7 @@ namespace SmsService
 
             Util_BLL util = new Util_BLL();
             AttendanceBll aBLL = new AttendanceBll();
-                        
-            
-
+           
             aBLL.ProcessMachineAttendance(site, util.CheckNullInt(DateTime.Now.Year), util.CheckNullInt(DateTime.Now.Month), util.CheckNullInt(DateTime.Now.Day), 0);
             
             List<AttendanceBll.AttendanceEntity> absentees = new List<AttendanceBll.AttendanceEntity>();
@@ -67,39 +65,35 @@ namespace SmsService
             // userID=36, whitehall
             List<ClassMasterBLL.ClassMasterEntity> ClassList = cBLL.GetClassList(site, 36);
 
-            foreach (ClassMasterBLL.ClassMasterEntity clas in ClassList)
-            {
-                //absentees = aBLL.GetAttendance(site, 2019, DateTime.Now.Month, DateTime.Now.Day, clas.ClassMasterId , false);
-                absentees = aBLL.GetAttendance(site, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, clas.ClassMasterId, false);
+             //absentees = aBLL.GetAttendance(site, 2019, DateTime.Now.Month, DateTime.Now.Day, clas.ClassMasterId , false);
+            absentees = aBLL.GetAttendance(site, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, -1, false);
                 
-                string msg_str = "";
-                foreach (AttendanceBll.AttendanceEntity absente in absentees)
+            string msg_str = "";
+            foreach (AttendanceBll.AttendanceEntity absente in absentees)
+            {
+                if (absente.Status == 1)
                 {
-                    if (absente.Status == 1)
+                    if (absente.IsSMSSent == 0 && aBLL.GetPunchCount(site, util.CheckNullInt(absente.IdcardNo), DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, false) == 1)
                     {
-                        if (absente.IsSMSSent == 0 && aBLL.GetPunchCount(site, util.CheckNullInt(absente.IdcardNo), DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, false) == 1)
-                        {
-                            msg_str = "Dear Parents, Your child " + absente.StudentName + " has arrived in school on " + absente.InTime + ".";
-                            util.SendSms(absente.MobileNo, msg_str, 1, "WHSLMC", false);
-
-                            // set isMSsent = 1
-                            aBLL.PostSMS(site, absente.StudentId, 1);
-                            SendSMSToParents.WriteErrorLog("set isSMSSent to 1 " + absente.StudentName);
-                        }
-
-                        // Exit
-                        if (absente.IsSMSSent == 1 && aBLL.GetPunchCount(site, util.CheckNullInt(absente.IdcardNo), DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, true) == 1)
-                        {
-                            msg_str = "Dear Parents, Your child " + absente.StudentName + " has left the school on " + absente.OutTime + ".";
-                            util.SendSms(absente.MobileNo, msg_str, 1, "WHSLMC", false);
-                            aBLL.PostSMS(site, absente.StudentId, 2);
-                            SendSMSToParents.WriteErrorLog("set isSMSSent to 2 " + absente.StudentName);
-                        }
-                        
-
+                        msg_str = "Dear Parents, Your child " + absente.StudentName + " has arrived in school on " + absente.InTime + ".";
+                        util.SendSms(absente.MobileNo, msg_str, 1, "WHSLMC", false);
+                        aBLL.PostSMS(site, absente.StudentId, 1);
+                        SendSMSToParents.WriteErrorLog("set isSMSSent to 1 " + absente.StudentName);
                     }
 
+                    // Exit
+                    if (absente.IsSMSSent == 1 && aBLL.GetPunchCount(site, util.CheckNullInt(absente.IdcardNo), DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, true) > 0)
+                    {
+                        msg_str = "Dear Parents, Your child " + absente.StudentName + " has left the school on " + absente.OutTime + ".";
+                        util.SendSms(absente.MobileNo, msg_str, 1, "WHSLMC", false);
+                        aBLL.PostSMS(site, absente.StudentId, 2);
+                        SendSMSToParents.WriteErrorLog("set isSMSSent to 2 " + absente.StudentName);
+                    }
+                        
+
                 }
+
+                
 
 
             }
