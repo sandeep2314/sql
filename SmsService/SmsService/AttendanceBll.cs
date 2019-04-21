@@ -632,15 +632,18 @@ namespace SmsService
              // Insert records in tblAttendance when page loads from attendance machine
 
 
+             string esslTbl = "ebioServer.dbo.DeviceLogs_"+mnth+"_"+yr;
+
+
              string qry = " INSERT INTO tblAttendance(YearNo, MonthNo, DayNo, HolidayId "
                     + ", status, InTime, OutTime, StudentMasterID, UserID, SubUserID, FYear) "
                     + " SELECT " + yr + ", " + mnth + ", " + dey + ", " + isHoliday + ", (CASE WHEN Min(logDate) is Null THEN 0 ELSE 1 END) status  "
                     + " , Min(logDate), MAX(logDate), s.StudentMasterID,  "
                     + util.GetUserInsertQry()
                     + " FROM tblStudentMaster s  "
-                    + " LEFT OUTER JOIN ebioServer.dbo.DeviceLogs_3_2019 e ON e.UserID=s.IDCardNO "
+                    + " LEFT OUTER JOIN " +esslTbl+ " e ON e.UserID=s.IDCardNO "
                     + " AND Day(logDate) = " + dey + " and month(logDate) = " + mnth
-                    + Util_BLL.GetUserWhereCondition(Util_BLL.User, "2019", "s")
+                    + Util_BLL.GetUserWhereCondition(Util_BLL.User, "2014", "s")
 
                     + " AND NOT EXISTS(SELECT YearNo, MonthNo, DayNo, StudentMasterID, outtime "
                     + "    FROM tblAttendance a "
@@ -657,7 +660,7 @@ namespace SmsService
                     + " , Min(logDate), MAX(logDate), s.StudentMasterID,  "
                     + util.GetUserInsertQry()
                     + " FROM tblStudentMaster s  "
-                    + " INNER JOIN ebioServer.dbo.DeviceLogs_3_2019 e ON e.UserID=s.IDCardNO"
+                    + " INNER JOIN " + esslTbl + " e ON e.UserID=s.IDCardNO"
                     + " AND Day(logDate) = " + dey + " and month(logDate) = " + mnth + " AND year(logDate) = " + yr
                     + Util_BLL.GetUserWhereCondition(Util_BLL.User, "2014", "s")
 
@@ -668,19 +671,35 @@ namespace SmsService
 
                     + " GROUP BY s.StudentMasterID ";
 
-             //SendSMSToParents.WriteErrorLog("qry 222 " + qry);
+             SendSMSToParents.WriteErrorLog("qry 777 " + qry);
 
              site.Execute(qry);
 
          }
 
-         public int GetPunchCount(DBSite site, int IDCard, int day)
+         public int GetPunchCount(DBSite site, int IDCard, int day, int mnth, int yr, bool isExit)
          {
              int punchCount = 0;
 
-             string qry = " select count(*) theCount from ebioServer.dbo.DeviceLogs_3_2019 "
+             string tbl = "ebioServer.dbo.DeviceLogs_"+ mnth +"_" + yr;
+
+
+             string qry = " SELECT COUNT(*) theCount FROM " + tbl 
                           + "  WHERE USerID=" + IDCard 
                             + " AND DAY(logDate) = " + day;
+
+             // When exit : at least 1 hr gap between first punch and the second punch
+             if (isExit)
+             {
+                 qry = " SELECT TOP 1 logdate theCount FROM " + tbl
+                          + "  WHERE USerID=" + IDCard
+                            + " AND DAY(logDate) = " + day
+                            +  " AND LogDate > 	( SELECT dateadd(MINUTE, 5, MIN(logdate)) "
+                                                +  " FROM " + tbl
+                                                + " WHERE USerID=" + IDCard 
+                                                + " AND DAY(logDate) = " + day +")";
+              }
+
 
 
              DataTable dt = site.ExecuteSelect(qry);
