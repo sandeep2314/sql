@@ -1,0 +1,7 @@
+// open command prompt via Admin
+
+//InstallUtil.exe
+//C:\Windows\Microsoft.NET\Framework\v4.0.30319
+
+//C:\Windows\Microsoft.NET\Framework\v4.0.30319 InstallUtil.exe /u "C:\SMSService\SmsService.exe"
+//C:\Windows\Microsoft.NET\Framework\v4.0.30319 InstallUtil.exe  "C:\SmsService\SmsService.exe"
