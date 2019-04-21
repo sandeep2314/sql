@@ -671,7 +671,7 @@ namespace SmsService
 
                     + " GROUP BY s.StudentMasterID ";
 
-             SendSMSToParents.WriteErrorLog("qry 777 " + qry);
+             //SendSMSToParents.WriteErrorLog("qry 777 " + qry);
 
              site.Execute(qry);
 
@@ -683,23 +683,21 @@ namespace SmsService
 
              string tbl = "ebioServer.dbo.DeviceLogs_"+ mnth +"_" + yr;
 
+             string whereStr = "   WHERE USerID=" + IDCard
+                               + " AND DAY(logDate) = " + day
+                               + " AND MONTH(logDate) = " + mnth
+                               + " AND Year(logDate) = " + yr;
 
-             string qry = " SELECT COUNT(*) theCount FROM " + tbl 
-                          + "  WHERE USerID=" + IDCard 
-                            + " AND DAY(logDate) = " + day;
 
+             string qry = " SELECT COUNT(*) theCount FROM " + tbl + whereStr;
+                          
              // When exit : at least 1 hr gap between first punch and the second punch
              if (isExit)
              {
-                 qry = " SELECT TOP 1 logdate theCount FROM " + tbl
-                          + "  WHERE USerID=" + IDCard
-                            + " AND DAY(logDate) = " + day
-                            +  " AND LogDate > 	( SELECT dateadd(MINUTE, 5, MIN(logdate)) "
-                                                +  " FROM " + tbl
-                                                + " WHERE USerID=" + IDCard 
-                                                + " AND DAY(logDate) = " + day +")";
+                 qry = " SELECT count(logdate) theCount FROM " + tbl + whereStr 
+                            +  " AND LogDate > 	( SELECT dateadd(MINUTE, 60, MIN(logdate)) "
+                                                +  " FROM " + tbl + whereStr + ")";
               }
-
 
 
              DataTable dt = site.ExecuteSelect(qry);
