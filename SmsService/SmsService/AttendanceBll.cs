@@ -578,7 +578,7 @@ namespace SmsService
 
 
 
-         public void ProcessMachineAttendanceOld(DBSite site, int yr, int mnth, int dey, int isHoliday)
+         public void AddStudentDataInAttdencance(DBSite site, int yr, int mnth, int dey, int isHoliday)
          {
 
              // Insert records in tblAttendance when page loads from attendance machine
@@ -586,43 +586,65 @@ namespace SmsService
 
              string qry = " INSERT INTO tblAttendance(YearNo, MonthNo, DayNo, HolidayId "
                     + ", status, InTime, OutTime, StudentMasterID, UserID, SubUserID, FYear) "
-                    + " SELECT "+yr+", " + mnth + ", " + dey + ", " + isHoliday + ", (CASE WHEN Min(OfficePunch) is Null THEN 0 ELSE 1 END) status  "
-                    + " , Min(OfficePunch), MAX(OfficePunch), s.StudentMasterID,  "
+                    + " SELECT " + yr + ", " + mnth + ", " + dey + ", " + isHoliday + ", 0 status  "
+                    + " , 0, 0, s.StudentMasterID,  "
                     + util.GetUserInsertQry()
                     + " FROM tblStudentMaster s  "
-                    + " LEFT OUTER JOIN stardc_rawdata  r ON s.IdCardNo = r.CardNo "
-                    + " AND Day(officePunch) = " + dey + " and month(officepunch) = " + mnth
+                    + " LEFT OUTER JOIN tblAttendance  a ON a.StudentMasterID = s.StudentMasterID "
+                    + " AND DayNo = " + dey + " and monthNo = " + mnth + " and YearNo = " + yr
                     + Util_BLL.GetUserWhereCondition()
 
                     + " AND NOT EXISTS(SELECT YearNo, MonthNo, DayNo, StudentMasterID, outtime "
                     + "    FROM tblAttendance a "
                     + "   WHERE a.StudentMasterID = s.StudentMasterID "
-                    + "   AND outTime is Null AND YearNo = "+yr+" AND a.MonthNo =" + mnth + " AND a.DayNo = " + dey + " ) "
+                    + "   AND YearNo = " + yr + " AND a.MonthNo =" + mnth + " AND a.DayNo = " + dey + " ) ";
 
-                    + " GROUP BY s.StudentMasterID "
-
-
-                    + " UNION  "
-
-
-                    + " SELECT "+yr+", " + mnth + ", " + dey + ", " + isHoliday + ", (CASE WHEN Min(OfficePunch) is Null THEN 0 ELSE 1 END) status  "
-                    + " , Min(OfficePunch), MAX(OfficePunch), s.StudentMasterID,  "
-                    + util.GetUserInsertQry()
-                    + " FROM tblStudentMaster s  "
-                    + " INNER JOIN stardc_rawdata  r ON s.IdCardNo = r.CardNo "
-                    + " AND Day(officePunch) = " + dey + " and month(officepunch) = " + mnth + " AND year(officepunch) = " + yr 
-                    + Util_BLL.GetUserWhereCondition()
-
-                    + " AND NOT EXISTS(SELECT YearNo, MonthNo, DayNo, StudentMasterID, outtime "
-                    + "    FROM tblAttendance a "
-                    + "   WHERE a.StudentMasterID = s.StudentMasterID "
-                    + "  AND outtime = officePunch AND year(officepunch) = " + yr+ " AND a.MonthNo =" + mnth + " AND a.DayNo = " + dey + " ) "
-
-                    + " GROUP BY s.StudentMasterID ";
 
         site.Execute(qry);
 
          }
+
+
+         public void UpDateInTime_OutTime(DBSite site, int yr, int mnth, int dey, int attendanceId, string IdCardNo, int status, string InTime_OutTime)
+         {
+
+             string qry="";
+             string esslTbl = "etimetracklite1.dbo.DeviceLogs_" + mnth + "_" + yr;
+
+             string subQry = "";
+
+             if (InTime_OutTime == "INTIME")
+             {
+                 subQry = " SELECT MIN(logdate)  "
+                            + " FROM " + esslTbl
+                            + " WHERE day(logdate)=" + dey
+                            + " AND MONTH(logdate)=" + mnth
+                            + " AND YEAR(LogDate) = " + yr
+                            + " AND UserId = " + IdCardNo;
+
+             }
+             else
+             {
+                 subQry = " SELECT dateadd(MINUTE, 60, MIN(logdate))  "
+                            + " FROM " + esslTbl
+                            + " WHERE day(logdate)=" + dey
+                            + " AND MONTH(logdate)=" + mnth
+                            + " AND YEAR(LogDate) = " + yr
+                            + " AND UserId = " + IdCardNo;
+
+             }
+
+             qry = " UPDATE tblAttendance a "
+                           + " SET " + InTime_OutTime + " = "
+                           + " (" + subQry + ") "
+                           + ", status = "+ status
+                           + " WHERE a.tblAttendanceID = " + attendanceId;
+             
+             
+             site.Execute(qry);
+         }
+
+
 
 
 
@@ -632,7 +654,7 @@ namespace SmsService
              // Insert records in tblAttendance when page loads from attendance machine
 
 
-             string esslTbl = "ebioServer.dbo.DeviceLogs_"+mnth+"_"+yr;
+             string esslTbl = "etimetracklite1.dbo.DeviceLogs_" + mnth + "_" + yr;
 
 
              string qry = " INSERT INTO tblAttendance(YearNo, MonthNo, DayNo, HolidayId "
@@ -671,7 +693,7 @@ namespace SmsService
 
                     + " GROUP BY s.StudentMasterID ";
 
-             //SendSMSToParents.WriteErrorLog("qry 777 " + qry);
+             SendSMSToParents.WriteErrorLog("qry Process Machine  " + qry);
 
              site.Execute(qry);
 
@@ -681,7 +703,7 @@ namespace SmsService
          {
              int punchCount = 0;
 
-             string tbl = "ebioServer.dbo.DeviceLogs_"+ mnth +"_" + yr;
+             string tbl = "etimetracklite1.dbo.DeviceLogs_" + mnth + "_" + yr;
 
              string whereStr = "   WHERE USerID=" + IDCard
                                + " AND DAY(logDate) = " + day

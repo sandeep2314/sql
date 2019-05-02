@@ -1198,8 +1198,8 @@ namespace SmsService
     public string SendSms(string mobileNos, string msg, int userID, string senderID, bool isUnicode)
     {
         //smsIndiaHub
-        string sUser = "sandeep99";
-        string spwd = "pantnagar";
+        string sUser = "sandeepTFT";
+        string spwd = "pantnagar2314";
         
         string sNumber = mobileNos;
 
@@ -1225,7 +1225,7 @@ namespace SmsService
         }
 
 
-        SendSMSToParents.WriteErrorLog("SMS Sent the Url  " + sURL);
+        //SendSMSToParents.WriteErrorLog("SMS Sent the Url  " + sURL);
         
         string sResponse = GetResponse(sURL);
 
