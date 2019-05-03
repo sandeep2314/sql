@@ -268,8 +268,88 @@ namespace SmsService
          //}
 
 
+         public List<AttendanceEntity> GetAttendance(DBSite site, int yearNo, int theMonth, int theDay, int clasId, bool onlyAbsentees)
+         {
 
-        public List<AttendanceEntity> GetAttendance(DBSite site, int yearNo, int theMonth, int theDay, int clasId,  bool onlyAbsentees)
+             List<AttendanceEntity> adList = new List<AttendanceEntity>();
+             AttendanceEntity da = null;
+
+             string qry = "";
+             qry = "SELECT AttendanceId, YearNo, MonthNo, DayNo, HolidayID "
+
+             + ", a.StudentMasterID, StudentName, s.classID,  MobileF , ClassName, s.SectionId, sc.SectionName, s.IdCardNo "
+              +" , InTime "
+
+              + " , OutTime, Status "
+             + ", IsPosted "
+             + " , IsSmsSent "
+              + " FROM tblAttendance a "
+              + " LEFT OUTER JOIN tblStudentMaster s ON s.StudentMasterID = a.StudentMasterID "
+              + " LEFT OUTER JOIN tblClassMaster C ON c.classMasterID = s.classID  "
+              + " LEFT OUTER JOIN tblSectionMaster sc ON sc.SectionMasterID = s.SectionId    "
+              + Util_BLL.GetUserWhereCondition("a")
+              + " AND YearNo = " + yearNo
+              + " AND MonthNo = " + theMonth
+              + " AND DayNo = " + theDay;
+
+             if (onlyAbsentees)
+                 qry += " AND status = 0 ";
+             if (clasId != -1)
+                 qry += " AND c.classMasterID = " + clasId;
+
+             
+
+
+             SendSMSToParents.WriteErrorLog("GetAttendance qry " + qry);
+
+             DataTable dt = site.ExecuteSelect(qry);
+             foreach (DataRow dr in dt.Rows)
+             {
+                 da = new AttendanceEntity();
+
+                 da.AttendanceId = util.CheckNullInt(dr["AttendanceId"]);
+                 da.YearNo = util.CheckNullInt(dr["YearNo"]);
+                 da.MonthNo = util.CheckNullInt(dr["MonthNo"]);
+                 da.DayNo = util.CheckNullInt(dr["DayNo"]);
+                 da.HolidayId = util.CheckNullInt(dr["HolidayID"]);
+
+                 da.StudentId = util.CheckNullInt(dr["StudentMasterID"]);
+                 da.StudentName = util.CheckNull(dr["StudentName"]);
+
+                 da.MobileNo = util.CheckNull(dr["MobileF"]);
+
+                 da.ClassId = util.CheckNullInt(dr["ClassID"]);
+                 da.ClassName = util.CheckNull(dr["ClassName"]);
+
+                 da.SectionId = util.CheckNullInt(dr["SectionID"]);
+                 da.SectionName = util.CheckNull(dr["SectionName"]);
+
+                 da.IdcardNo = util.CheckNull(dr["IdCardNo"]);
+
+                 da.InTime = util.CheckNull(dr["InTime"]);
+                 da.OutTime = util.CheckNull(dr["OutTime"]);
+
+
+                 da.IsPosted = util.CheckNullInt(dr["IsPosted"]);
+                 da.IsSMSSent = util.CheckNullInt(dr["IsSMSSent"]);
+                 da.Status = util.CheckNullInt(dr["status"]);
+
+                 //if (da.IsPosted==0)
+                 //    da.Status = 1;
+
+
+                 adList.Add(da);
+
+             }
+
+
+             return adList;
+
+         }
+
+
+
+        public List<AttendanceEntity> GetAttendance2MAy19(DBSite site, int yearNo, int theMonth, int theDay, int clasId,  bool onlyAbsentees)
          {
 
              List<AttendanceEntity> adList = new List<AttendanceEntity>();
@@ -311,7 +391,7 @@ namespace SmsService
              + " ORDER BY ClassOrder,sectionName, StudentName ";
 
             
-            //SendSMSToParents.WriteErrorLog("the qry " + qry);
+           SendSMSToParents.WriteErrorLog("GetAttendance qry " + qry);
             
             DataTable dt = site.ExecuteSelect(qry);
             foreach (DataRow dr in dt.Rows)
@@ -345,8 +425,8 @@ namespace SmsService
                 da.IsSMSSent = util.CheckNullInt(dr["IsSMSSent"]);
                 da.Status = util.CheckNullInt(dr["status"]);
 
-                if (da.IsPosted==0)
-                    da.Status = 1;
+                //if (da.IsPosted==0)
+                //    da.Status = 1;
                
 
                 adList.Add(da);
@@ -586,13 +666,13 @@ namespace SmsService
 
              string qry = " INSERT INTO tblAttendance(YearNo, MonthNo, DayNo, HolidayId "
                     + ", status, InTime, OutTime, StudentMasterID, UserID, SubUserID, FYear) "
-                    + " SELECT " + yr + ", " + mnth + ", " + dey + ", " + isHoliday + ", 0 status  "
-                    + " , 0, 0, s.StudentMasterID,  "
+                    + " SELECT " + yr + ", " + mnth + ", " + dey + ", " + isHoliday + ", 0  "
+                    + " , null, null, s.StudentMasterID,  "
                     + util.GetUserInsertQry()
                     + " FROM tblStudentMaster s  "
                     + " LEFT OUTER JOIN tblAttendance  a ON a.StudentMasterID = s.StudentMasterID "
                     + " AND DayNo = " + dey + " and monthNo = " + mnth + " and YearNo = " + yr
-                    + Util_BLL.GetUserWhereCondition()
+                    + Util_BLL.GetUserWhereCondition(Util_BLL.User, "2014", "s")
 
                     + " AND NOT EXISTS(SELECT YearNo, MonthNo, DayNo, StudentMasterID, outtime "
                     + "    FROM tblAttendance a "
@@ -600,47 +680,66 @@ namespace SmsService
                     + "   AND YearNo = " + yr + " AND a.MonthNo =" + mnth + " AND a.DayNo = " + dey + " ) ";
 
 
-        site.Execute(qry);
+             SendSMSToParents.WriteErrorLog("AddStudentDataInAttdencance " + qry);
+             site.Execute(qry);
+
 
          }
 
 
-         public void UpDateInTime_OutTime(DBSite site, int yr, int mnth, int dey, int attendanceId, string IdCardNo, int status, string InTime_OutTime)
+         public string  GetlogDate(DBSite site, int yr, int mnth, int dey, int attendanceId, string IdCardNo, string InTime_OutTime)
+         {
+                string log_date = "";
+                string subQry = "";
+                string esslTbl = "etimetracklite1.dbo.DeviceLogs_" + mnth + "_" + yr;
+
+                string whereQry = " WHERE day(logdate)=" + dey
+                               + " AND MONTH(logdate)=" + mnth
+                               + " AND YEAR(LogDate) = " + yr
+                               + " AND UserId = " + IdCardNo;
+
+                if (InTime_OutTime == "INTIME")
+                {
+                    subQry = " SELECT MIN(logdate) punch "
+                               + " FROM " + esslTbl
+                               + whereQry;
+
+                }
+                else if(InTime_OutTime == "OUTTIME")
+                {   
+                    subQry = " SELECT logdate punch "
+                               + " FROM " + esslTbl
+                               + whereQry
+                               + " AND AND LogDate > "
+                               + " (SELECT dateadd(MINUTE, 60, MIN(logdate)) "
+                               + " FROM " + esslTbl
+                               + whereQry + ")";
+
+
+                }
+
+                DataTable dt = site.ExecuteSelect(subQry);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    log_date = util.CheckNull(dr["punch"]);
+                }
+
+
+                return log_date;
+         }
+
+
+         public void UpDateInTime_OutTime(DBSite site, string logdate, int attendanceId, int status, string InTime_OutTime)
          {
 
              string qry="";
-             string esslTbl = "etimetracklite1.dbo.DeviceLogs_" + mnth + "_" + yr;
-
-             string subQry = "";
-
-             if (InTime_OutTime == "INTIME")
-             {
-                 subQry = " SELECT MIN(logdate)  "
-                            + " FROM " + esslTbl
-                            + " WHERE day(logdate)=" + dey
-                            + " AND MONTH(logdate)=" + mnth
-                            + " AND YEAR(LogDate) = " + yr
-                            + " AND UserId = " + IdCardNo;
-
-             }
-             else
-             {
-                 subQry = " SELECT dateadd(MINUTE, 60, MIN(logdate))  "
-                            + " FROM " + esslTbl
-                            + " WHERE day(logdate)=" + dey
-                            + " AND MONTH(logdate)=" + mnth
-                            + " AND YEAR(LogDate) = " + yr
-                            + " AND UserId = " + IdCardNo;
-
-             }
-
-             qry = " UPDATE tblAttendance a "
-                           + " SET " + InTime_OutTime + " = "
-                           + " (" + subQry + ") "
+             
+             qry = " UPDATE tblAttendance  "
+                           + " SET " + InTime_OutTime + " = '" + logdate +"'"
                            + ", status = "+ status
-                           + " WHERE a.tblAttendanceID = " + attendanceId;
-             
-             
+                           + " WHERE AttendanceID = " + attendanceId;
+
+             SendSMSToParents.WriteErrorLog("UpDateInTime_OutTime " + qry);
              site.Execute(qry);
          }
 

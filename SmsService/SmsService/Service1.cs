@@ -63,13 +63,32 @@ namespace SmsService
             absentees = aBLL.GetAttendance(site, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, -1, false);
             foreach (AttendanceBll.AttendanceEntity abs in absentees)
             {
-                // Update InTime
-                if (abs.Status == 0)
-                    aBLL.UpDateInTime_OutTime(site, util.CheckNullInt(DateTime.Now.Year), util.CheckNullInt(DateTime.Now.Month), util.CheckNullInt(DateTime.Now.Day), abs.AttendanceId, abs.IdcardNo, 1, "INTIME");
+                //SendSMSToParents.WriteErrorLog("abs.status  "+ abs.Status +" " + abs.StudentName + " IDCardNo:  " + abs.IdcardNo);
 
+                string logdate = "";
+                // Update InTime
+                if (abs.Status == 0 && abs.IdcardNo.Length > 1)
+                {
+                   // get logdate 
+                    logdate = aBLL.GetlogDate(site, util.CheckNullInt(DateTime.Now.Year), util.CheckNullInt(DateTime.Now.Month), util.CheckNullInt(DateTime.Now.Day), abs.AttendanceId, abs.IdcardNo,  "INTIME");
+
+                    if (logdate.Length > 0)
+                    {
+                        aBLL.UpDateInTime_OutTime(site, logdate, abs.AttendanceId, 1, "INTIME");
+                        SendSMSToParents.WriteErrorLog("UPDATE INTIME  " + abs.IdcardNo);
+                    }
+                }
                 // OUTTIME
-                if (abs.Status == 1 && abs.IsSMSSent==1)
-                    aBLL.UpDateInTime_OutTime(site, util.CheckNullInt(DateTime.Now.Year), util.CheckNullInt(DateTime.Now.Month), util.CheckNullInt(DateTime.Now.Day), abs.AttendanceId, abs.IdcardNo, 1, "OUTTIME");
+                if (abs.Status == 1 && abs.IsSMSSent == 1)
+                {
+                    logdate = aBLL.GetlogDate(site, util.CheckNullInt(DateTime.Now.Year), util.CheckNullInt(DateTime.Now.Month), util.CheckNullInt(DateTime.Now.Day), abs.AttendanceId, abs.IdcardNo, "OUTIME");
+                    if (logdate.Length > 0)
+                    {
+                        aBLL.UpDateInTime_OutTime(site, logdate, abs.AttendanceId, 2, "OUTTIME");
+                        SendSMSToParents.WriteErrorLog("UPDATE OUTTIME " + abs.IdcardNo );
+                    }
+                    
+                }
 
            } 
 
@@ -80,23 +99,23 @@ namespace SmsService
             foreach (AttendanceBll.AttendanceEntity absente in absentees)
             {
                 
-                if (absente.Status == 1)
+                if (absente.Status > 0)
                 {
-                    if (absente.IsSMSSent == 0 )
+                    if (absente.Status==1 &&  absente.IsSMSSent == 0 )
                     {
                         msg_str = "Dear Parents, Your child " + absente.StudentName + " has arrived in school on " + absente.InTime + ".";
                         //util.SendSms(absente.MobileNo, msg_str, 1, "WHSLMC", false);
                         util.SaveSentSMSToDB(site, absente.MobileNo, msg_str, false, 36);
                         aBLL.PostSMS(site, absente.StudentId, 1);
-                        SendSMSToParents.WriteErrorLog("set isSMSSent to 1 " + absente.StudentName);
+                        SendSMSToParents.WriteErrorLog("set isSMSSent to 1 " + absente.StudentName );
                     }
 
                     // Exit
                 
-                    if (absente.IsSMSSent == 1)
+                    if (absente.Status==2 && absente.IsSMSSent == 1)
                     {
                         msg_str = "Dear Parents, Your child " + absente.StudentName + " has left the school on " + absente.OutTime + ".";
-                        //util.SendSms(absente.MobileNo, msg_str, 1, "WHSLMC", false);
+                        util.SendSms(absente.MobileNo, msg_str, 1, "WHSLMC", false);
                         util.SaveSentSMSToDB(site, absente.MobileNo, msg_str, false, 36);
                         aBLL.PostSMS(site, absente.StudentId, 2);
                         SendSMSToParents.WriteErrorLog("set isSMSSent to 2 " + absente.StudentName);
