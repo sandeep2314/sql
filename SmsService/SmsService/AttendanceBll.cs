@@ -297,11 +297,7 @@ namespace SmsService
              if (clasId != -1)
                  qry += " AND c.classMasterID = " + clasId;
 
-             
-
-
-             SendSMSToParents.WriteErrorLog("GetAttendance qry " + qry);
-
+            
              DataTable dt = site.ExecuteSelect(qry);
              foreach (DataRow dr in dt.Rows)
              {
@@ -341,7 +337,7 @@ namespace SmsService
                  adList.Add(da);
 
              }
-
+             SendSMSToParents.WriteErrorLog("GetAttendance : " + qry);
 
              return adList;
 
@@ -707,10 +703,10 @@ namespace SmsService
                 }
                 else if(InTime_OutTime == "OUTTIME")
                 {   
-                    subQry = " SELECT logdate punch "
+                    subQry = " SELECT MIN(logdate) punch "
                                + " FROM " + esslTbl
                                + whereQry
-                               + " AND AND LogDate > "
+                               + " AND  LogDate > "
                                + " (SELECT dateadd(MINUTE, 60, MIN(logdate)) "
                                + " FROM " + esslTbl
                                + whereQry + ")";
@@ -724,7 +720,7 @@ namespace SmsService
                     log_date = util.CheckNull(dr["punch"]);
                 }
 
-
+                SendSMSToParents.WriteErrorLog("logdate qry "  + subQry);
                 return log_date;
          }
 
@@ -739,7 +735,7 @@ namespace SmsService
                            + ", status = "+ status
                            + " WHERE AttendanceID = " + attendanceId;
 
-             SendSMSToParents.WriteErrorLog("UpDateInTime_OutTime " + qry);
+             //SendSMSToParents.WriteErrorLog("UpDateInTime_OutTime " + qry);
              site.Execute(qry);
          }
 
@@ -792,7 +788,7 @@ namespace SmsService
 
                     + " GROUP BY s.StudentMasterID ";
 
-             SendSMSToParents.WriteErrorLog("qry Process Machine  " + qry);
+             //SendSMSToParents.WriteErrorLog("qry Process Machine  " + qry);
 
              site.Execute(qry);
 
