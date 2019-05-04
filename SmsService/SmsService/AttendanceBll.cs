@@ -337,7 +337,7 @@ namespace SmsService
                  adList.Add(da);
 
              }
-             SendSMSToParents.WriteErrorLog("GetAttendance : " + qry);
+             //SendSMSToParents.WriteErrorLog("GetAttendance : " + qry);
 
              return adList;
 
@@ -676,7 +676,7 @@ namespace SmsService
                     + "   AND YearNo = " + yr + " AND a.MonthNo =" + mnth + " AND a.DayNo = " + dey + " ) ";
 
 
-             SendSMSToParents.WriteErrorLog("AddStudentDataInAttdencance " + qry);
+             //SendSMSToParents.WriteErrorLog("AddStudentDataInAttdencance " + qry);
              site.Execute(qry);
 
 
@@ -720,7 +720,7 @@ namespace SmsService
                     log_date = util.CheckNull(dr["punch"]);
                 }
 
-                SendSMSToParents.WriteErrorLog("logdate qry "  + subQry);
+                //SendSMSToParents.WriteErrorLog("logdate qry "  + subQry);
                 return log_date;
          }
 
