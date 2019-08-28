@@ -1310,7 +1310,7 @@ End Sub
 
 
 
-Private Sub btnFutureRecipt_Click24Aug2014()
+Private Sub btnFutureRecipt_Click()
     
     ' class
         
@@ -1549,9 +1549,6 @@ Private Sub btnFutureRecipt_Click24Aug2014()
             total = total + amount
             
             
-            
-            
-            
             DoEvents
             
             rs2.MoveNext
@@ -1578,12 +1575,12 @@ Private Sub btnFutureRecipt_Click24Aug2014()
                 totalPayable = 0
             End If
             
-           ' Print #1, Tab(col1x); "Previous Balance "; Tab(col5x); Util.FormatDouble(prv_amount)
+            Print #1, Tab(col1x); "Previous Balance "; Tab(col5x); Util.FormatDouble(prv_amount)
             
             Print #1,
             Print #1, Tab(col1x); "-------------------------------------------------------"
-            'Print #1, Tab(col1x); "Total Payable "; Tab(col5x); Util.FormatDouble(totalPayable)
-            Print #1, Tab(col1x); "Total "; Tab(col5x - 7); Util.FormatDouble(total)
+            Print #1, Tab(col1x); "Total Payable "; Tab(col5x); Util.FormatDouble(totalPayable)
+           ' Print #1, Tab(col1x); "Total "; Tab(col5x - 7); Util.FormatDouble(total)
             Print #1, Tab(col1x); "-------------------------------------------------------"
             Print #1,
             DoEvents
@@ -1601,7 +1598,7 @@ Private Sub btnFutureRecipt_Click24Aug2014()
     
 
 End Sub
-Private Sub btnFutureRecipt_Click()
+Private Sub btnFutureRecipt_Click_26Apr19()
     
     ' class
     
@@ -1871,11 +1868,11 @@ Private Sub btnFutureRecipt_Click()
                 totalPayable = 0
             End If
             
-            'Print #1, Tab(col1x); "Previous Balance "; Tab(col5x); Util.FormatDouble(prv_amount)
+            Print #1, Tab(col1x); "Previous Balance "; Tab(col5x); Util.FormatDouble(prv_amount)
             
             Print #1,
             Print #1, Tab(col1x); "--------------------------------------------------------------------------------------------"
-            'Print #1, Tab(col1x); "Total Payable "; Tab(col5x); Util.FormatDouble(totalPayable)
+            Print #1, Tab(col1x); "Total Payable "; Tab(col5x); Util.FormatDouble(totalPayable)
             Print #1, Tab(col1x); "Total "; Tab(col5x); Util.FormatDouble(total)
             Print #1, Tab(col1x); "--------------------------------------------------------------------------------------------"
             Print #1,
