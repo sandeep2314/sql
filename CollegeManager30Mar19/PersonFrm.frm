@@ -1051,7 +1051,7 @@ Begin VB.Form PersonFrm
       Width           =   855
    End
    Begin VB.Label Label1 
-      Caption         =   "BoardsNo"
+      Caption         =   "Occupation"
       Height          =   375
       Index           =   29
       Left            =   5040
@@ -1442,9 +1442,9 @@ pictureFileName = pfile
 Picture1.Picture = LoadPicture(pfile)
 End Sub
 Sub LoadImageFromFile()
-    dlg1.Filter = "JPG Files (*.jpg)|*.jpg"
-    dlg1.ShowOpen
-    pictureFileName = dlg1.fileName
+    Dlg1.Filter = "JPG Files (*.jpg)|*.jpg"
+    Dlg1.ShowOpen
+    pictureFileName = Dlg1.fileName
     Picture1.Picture = LoadPicture(pictureFileName)
 End Sub
 
@@ -1646,7 +1646,7 @@ Private Sub btnPrintForm_Click()
     Set rs = New Recordset
     Dim subQuery, colStr   As String
     subQuery = " SELECT MAX(tid) FROM tblPerson WHERE pid='" & Me.txtString(19) & "' GROUP BY pid "
-    colStr = " tid, pid, firstName+' '+middlename+' '+lastName AS Name , company, remarks , phone1 , phone2, Address, city, state, RegistrationNo, admissionNo, DOB, country, mother, code1, code2, dept, dname, purpose, arrival"
+    colStr = " tid, pid, firstName+' '+middlename+' '+lastName AS Name , company, remarks , phone1 , phone2, Address, city, state, RegistrationNo, admissionNo, DOB, country, mother, code1, code2, dept, dname, purpose, arrival, AdharNo, BoardsRollNo, Caste"
     SearchQuery = "SELECT " & colStr & " FROM tblPerson WHERE tid IN (" + subQuery + ") "
     rs.Open SearchQuery, site.conn
     Dim startX As Long
@@ -1709,6 +1709,12 @@ Private Sub btnPrintForm_Click()
             Dim dob  As String
             Dim rNo, bNo, aNo, mother, sex, clas, admClas, admDate, lastSchool, leavingDate, leavingClas As String
             
+            Dim AdharNo, Occupation As String
+            
+            
+            ' 4444
+            
+            
             pid = Util.CheckNull(rs.Fields("pid").value)
             aNo = Util.CheckNull(rs.Fields("admissionNo").value)
             rNo = Util.CheckNull(rs.Fields("RegistrationNo").value)
@@ -1729,6 +1735,14 @@ Private Sub btnPrintForm_Click()
             leavingClas = Util.CheckNull(rs.Fields("code2").value)
             house = Util.CheckNull(rs.Fields("country").value)
             Remarks = Util.CheckNull(rs.Fields("remarks").value)
+            
+            AdharNo = Util.CheckNull(rs.Fields("AdharNo").value)
+            Occupation = Util.CheckNull(rs.Fields("BoardsRollNo").value)
+            Caste = Util.CheckNull(rs.Fields("Caste").value)
+            
+            
+            
+            
             count = count + 1
             ' Printer.FontBold = True
              Printer.FontSize = 10
@@ -1792,6 +1806,18 @@ Private Sub btnPrintForm_Click()
              Printer.CurrentY = cardTextY
              Printer.Print sex
                          
+             cardTextY = cardTextY + paraY1
+             Printer.CurrentX = startX
+             Printer.CurrentY = cardTextY
+             Printer.Print "Adhar No"
+             Printer.CurrentX = startX + colon1X
+             Printer.CurrentY = cardTextY
+             Printer.Print ":"
+             Printer.CurrentX = startX + data1X
+             Printer.CurrentY = cardTextY
+             Printer.Print AdharNo
+                         
+                         
              Printer.Line (startX - 150, cardTextY + lineY)-(10500, cardTextY + lineY)
              cardTextY = cardTextY + paraY2
              Printer.CurrentX = startX
@@ -1824,18 +1850,18 @@ Private Sub btnPrintForm_Click()
              Printer.Print ":"
              Printer.CurrentX = startX + data1X
              Printer.CurrentY = cardTextY
-             Printer.Print address
+             Printer.Print address + ", " + city
              
              cardTextY = cardTextY + paraY1
              Printer.CurrentX = startX
              Printer.CurrentY = cardTextY
-             Printer.Print "City"
+             Printer.Print "Father Occupation"
              Printer.CurrentX = startX + colon1X
              Printer.CurrentY = cardTextY
              Printer.Print ":"
              Printer.CurrentX = startX + data1X
              Printer.CurrentY = cardTextY
-             Printer.Print city
+             Printer.Print Occupation
              
              cardTextY = cardTextY + paraY1
              Printer.CurrentX = startX
@@ -1861,9 +1887,22 @@ Private Sub btnPrintForm_Click()
              Printer.CurrentY = cardTextY
              Printer.Print clas
              
+             
+             cardTextY = cardTextY + paraY2
+             Printer.CurrentX = startX
+             Printer.CurrentY = cardTextY
+             Printer.Print "Caste"
+             Printer.CurrentX = startX + colon1X
+             Printer.CurrentY = cardTextY
+             Printer.Print ":"
+             Printer.CurrentX = startX + data1X
+             Printer.CurrentY = cardTextY
+             Printer.Print Caste
+             
+             
              Printer.CurrentX = startX + label2X
              Printer.CurrentY = cardTextY
-             Printer.Print "House"
+             Printer.Print "Religion"
              Printer.CurrentX = startX + colon2X
              Printer.CurrentY = cardTextY
              Printer.Print ":"
@@ -1923,13 +1962,23 @@ Private Sub btnPrintForm_Click()
              
           rs.MoveNext
          Wend
-         '8888888888888888888888
-         cardTextY = cardTextY + 3500
+         
+         
+         cardTextY = cardTextY + 5000
+         Printer.FontSize = 10
+         Printer.Line (startX - 150, lineMaxY)-(10500, lineMaxY)
+         Printer.CurrentX = startX
+         Printer.CurrentY = lineMaxY + 2000
+         Printer.Print "                      Parent's Sign                                                            Principal's Sign " & Format(Now, "dd-mmm-yyyy")
+              
+         
+         
+         cardTextY = cardTextY + 2000
          Printer.FontSize = 7
          Printer.Line (startX - 150, lineMaxY)-(10500, lineMaxY)
          Printer.CurrentX = startX
-         Printer.CurrentY = lineMaxY + 200
-         Printer.Print "Form Printed on " & Format(Now, "dd-mmm-yyyy")
+         Printer.CurrentY = lineMaxY + 2000
+        ' Printer.Print "Form Printed on " & Format(Now, "dd-mmm-yyyy")
         
          Printer.EndDoc
       End If
@@ -1970,7 +2019,7 @@ Private Sub btnPrintTC_Click1()
            Printer.CurrentY = YY - 150
            Printer.FontSize = 9
            'Printer.Print "Phone: 2680881"
-           Printer.PaintPicture picture2.Picture, XX, YY, 1500, 1500
+           Printer.PaintPicture Picture2.Picture, XX, YY, 1500, 1500
             Dim startY
             startY = 300
             Printer.FontSize = 18
@@ -2305,9 +2354,11 @@ Private Sub btnTC_Click()
     'TCDataReport.Show
     'TCRpt_SGNSS.Show
     
-    'TCRpt_GardenValley.Show
-    TCRpt_DPS.Show
-'    TCRpt.Show
+    TCRpt_GardenValley.Show
+    'TCRpt_DPS.Show
+    
+    
+     'TCRpt.Show
     
 End Sub
 
@@ -2904,9 +2955,9 @@ Sub updateButtons()
     Me.btnPrintCC.Enabled = Len(txtString(0).Text) > 0
     Me.btnTC.Enabled = Len(txtString(0).Text) > 0 And txtString(3).Text = "Pass Out"
     
-    Me.btnPrintCC.Visible = False
-    Me.btnTC.Visible = False
-    FrameTC.Visible = False
+    'Me.btnPrintCC.Visible = False
+    'Me.btnTC.Visible = False
+   ' FrameTC.Visible = False
     
     
      Me.btnDoc.Enabled = IsNumeric(Me.txtString(19).Text)
