@@ -29,7 +29,7 @@ namespace SmsService
             // every 30 secs
           // this.timer1.Interval = 30000;
             // every 1 min
-            this.timer1.Interval = 2 * 60 * 1000;
+            this.timer1.Interval = 5 * 60 * 1000;
             this.timer1.Elapsed += new ElapsedEventHandler(this.timer1_Tick);
             timer1.Enabled=true;
             SendSMSToParents.WriteErrorLog("Test Window Service Started");
