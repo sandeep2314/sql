@@ -1657,7 +1657,88 @@ GO
 
 
 
+----------------Abdul Aahad Memorial Public School Kiratpur-----
 
+INSERT INTO tblUserInfo(UserName, Email, UserPassword
+, CreationDate,isActive
+, AmountPaid, startDate, EndDate
+, SMSUser
+, SMSPassword
+, SMSDelivery
+, UserType, NumberOFSubUsers, FYear, senderID)
+VALUES('Abdul Aahad Memorial Public School, Kiratpur'
+, 'aampskiratpur@gmail.com'
+, '123'
+, getdate(), 'Y'
+, 0, '2019-07-29 00:00:00.000', '2020-07-29 00:00:00.000'
+, 'sandeep99'
+, 'pantnagar'
+, 90
+, 1, 10, 2014, 'AAMPSK')
+
+go
+
+INSERT INTO tblSubUser(SubUserName,subUserPassword
+, subuserCreationDate
+, EmailId
+, IsAdmin
+, Active, userID)
+VALUES('Principal', '123'
+, '2019-07-29 00:00:00.000'
+, 'aampskiratpur@gmail.com', 1, 1, 38)
+
+go
+
+INSERT INTO tblSectionMaster(SectionName, SectionOrder,USERID, FYear)
+VALUES('', 1, 38, 2014)
+GO
+
+
+
+
+----------------Scholars Acdemic HOME Haldwani-----
+
+INSERT INTO tblUserInfo(UserName, Email, UserPassword
+, CreationDate,isActive
+, AmountPaid, startDate, EndDate
+, SMSUser
+, SMSPassword
+, SMSDelivery
+, UserType, NumberOFSubUsers, FYear, senderID)
+VALUES('Scholars Academic Home, Haldwani'
+, 'scholars.academic.home1@gmail.com'
+, '123'
+, getdate(), 'Y'
+, 0, '2019-09-06 00:00:00.000', '2020-09-06 00:00:00.000'
+, 'sandeep99'
+, 'pantnagar'
+, 90
+, 1, 10, 2014, 'SAHHLD')
+
+go
+
+INSERT INTO tblSubUser(SubUserName,subUserPassword
+, subuserCreationDate
+, EmailId
+, IsAdmin
+, Active, userID)
+VALUES('Principal', '123'
+, '2019-09-06 00:00:00.000'
+, 'scholars.academic.home1@gmail.com', 1, 1, 36)
+
+go
+
+INSERT INTO tblSectionMaster(SectionName, SectionOrder,USERID, FYear)
+VALUES('', 1, 36, 2014)
+GO
+
+INSERT INTO tblSectionMaster(SectionName, SectionOrder,USERID, FYear)
+VALUES('A', 2, 36, 2014)
+GO
+
+INSERT INTO tblSectionMaster(SectionName, SectionOrder,USERID, FYear)
+VALUES('B', 3, 36, 2014)
+GO
 
 
 
