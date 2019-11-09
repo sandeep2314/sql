@@ -4,6 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data;
+using System.IO;
+
+using Microsoft.Reporting.WebForms;
+
 
 using AccountingSoftware.BLL;
 
@@ -97,7 +102,27 @@ namespace AccountingSoftware.Master
             }
             
             
-            
+            //  Scholar Home Haldwani
+            // Junior Section Nursery, LKG, UKG
+            if (clsID == "SH_1")
+            {
+                rvReportCardCBSE.LocalReport.ReportPath = "RDLC\\GuruNanakRDLJ.rdlc";
+
+            }
+            else if (clsID == "SH_9")
+            {
+                rvReportCardCBSE.LocalReport.ReportPath = "RDLC\\ReportCardOakWoodReport.rdlc";
+
+            }
+            else if (clsID == "SH_11")
+            {
+                rvReportCardCBSE.LocalReport.ReportPath = "RDLC\\ScholarRDL_HY_11.rdlc";
+
+
+            }
+
+
+
         }
 
         protected void GetStudentId()
@@ -138,7 +163,13 @@ namespace AccountingSoftware.Master
         protected void btnGet_Click(object sender, EventArgs e)
         {
 
-            GetReportCard();
+            //GetReportCard();
+
+
+            for (int i = 0; i < 4; i++)
+                showReport("Report" + i + ".pdf", i);
+        
+
         }
 
 
@@ -157,6 +188,67 @@ namespace AccountingSoftware.Master
 
             
         }
+
+
+
+        protected void showReport(string fileName, int count)
+        {
+            Warning[] warnings;
+            string[] streamIds;
+            string mimeType = string.Empty;
+            string encoding = string.Empty;
+            string extension = string.Empty;
+            DataTable dt1 = new DataTable();
+
+            rvReportCardCBSE.LocalReport.Refresh();
+            rvReportCardCBSE.Reset();
+            rvReportCardCBSE.LocalReport.EnableExternalImages = true;
+            this.rvReportCardCBSE.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Local;
+           
+            BPSBll Bps = new BPSBll();
+            List<BPSBll.ReportCardCBSEEntity> rc = Bps.GetReportCardCBSE_BPS(49143);
+            ReportDataSource rds2 = new ReportDataSource("ScholasticDataSet", rc);
+            rvReportCardCBSE.LocalReport.DataSources.Add(rds2);
+
+            List<BPSBll.ReportCardCBSEEntity> rc_coScholastic = Bps.GetReportCardCBSE_CoScholastic_BPS(49143);
+            ReportDataSource rds3 = new ReportDataSource("CoScholasticDataSet", rc_coScholastic);
+            rvReportCardCBSE.LocalReport.DataSources.Add(rds3);
+
+            List<BPSBll.ReportCardCBSEEntity> rc_Discipline = Bps.GetReportCardCBSE_Discipline_BPS(49143);
+            ReportDataSource rds_d = new ReportDataSource("DisciplineDataSet", rc_Discipline);
+            rvReportCardCBSE.LocalReport.DataSources.Add(rds_d);
+
+            List<BPSBll.ReportCardCBSEEntity> rc_physical = Bps.GetReportCardCBSE_Physical_BPS(49143);
+            ReportDataSource rds_p = new ReportDataSource("PhysicalDataSet", rc_physical);
+            rvReportCardCBSE.LocalReport.DataSources.Add(rds_p);
+
+            List<BPSBll.ReportCardCBSEEntity> rc_remarks = Bps.GetReportCardCBSE_Remarks_BPS(49143);
+            ReportDataSource rds_remarks = new ReportDataSource("RemarksDataSet", rc_remarks);
+            rvReportCardCBSE.LocalReport.DataSources.Add(rds_remarks);
+
+            UserBLL usr = new UserBLL();
+            List<UserBLL.User> ur = usr.GetUsers();
+            ReportDataSource rds_u = new ReportDataSource("UserDataSet", ur);
+            rvReportCardCBSE.LocalReport.DataSources.Add(rds_u);
+            
+            rvReportCardCBSE.LocalReport.ReportPath = "RDLC\\ScholarRDL_HY_11.rdlc";
+            
+            byte[] bytes = rvReportCardCBSE.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
+
+
+            string pth = Server.MapPath("~/ReportCard/" + fileName);
+
+            using (Stream file = File.OpenWrite(@pth))
+            {
+                file.Write(bytes, 0, bytes.Length);
+            }
+
+            
+            rvReportCardCBSE.LocalReport.Refresh();
+        }
+
+
+
 
 
     }
